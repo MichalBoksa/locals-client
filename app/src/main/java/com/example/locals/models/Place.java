@@ -3,9 +3,9 @@ package com.example.locals.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class CitiesHomeData implements Serializable {
+public class Place implements Serializable {
 
-    String cityName;
+    String placeName;
     String description;
     Double price;
     String currency;
@@ -13,12 +13,12 @@ public class CitiesHomeData implements Serializable {
     String bookingUrl;
     Double rating;
 
-    public String getCityName() {
-        return cityName;
+    public String getPlaceName() {
+        return placeName;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setPlaceName(String cityName) {
+        this.placeName = cityName;
     }
 
     public String getDescription() {
