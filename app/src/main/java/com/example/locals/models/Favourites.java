@@ -1,10 +1,9 @@
 package com.example.locals.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-public class Favorites {
+public class Favourites {
     String name;
     LocalDate date;
     List<Place> placeList;

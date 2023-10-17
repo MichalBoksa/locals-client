@@ -231,32 +231,35 @@ e
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+
+            android:id="@+id/homeIconHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/home" />
 
         <ImageView
+            android:id="@+id/favoritesIconHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/favorite"
 
-            />
+            app:srcCompat="@drawable/favorite" />
 
         <ImageView
+            android:id="@+id/guideIconHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/person_search" />
 
         <ImageView
+            android:id="@+id/userProfileIconHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/settings"
 
-            />
+            app:srcCompat="@drawable/settings" />
 
 
     </LinearLayout>

@@ -4,21 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.locals.R;
 import com.example.locals.adapters.CityHomeAdapter;
-import com.example.locals.adapters.FavoritsListAdapter;
+import com.example.locals.adapters.FavouritesListAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
 import com.example.locals.models.City;
-import com.example.locals.models.Favorites;
+import com.example.locals.models.Favourites;
 import com.example.locals.models.Place;
+import com.example.locals.models.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
@@ -28,10 +30,14 @@ public class Home extends AppCompatActivity {
     RecyclerView favoritesRecyclerView;
     CityHomeAdapter cityHomeAdapter;
     PlaceHomeAdapter placeHomeAdapter;
-    FavoritsListAdapter favoritsListAdapter;
+    FavouritesListAdapter favoritsListAdapter;
     List<City> cityList = new ArrayList<>();
     List<Place> placeList = new ArrayList<>();
-    List<Favorites> favoritesList = new ArrayList<>();
+    List<Favourites> favoritesList = new ArrayList<>();
+    ImageView favoritesImage;
+    ImageView guidesImage;
+    ImageView userProfileImage;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class Home extends AppCompatActivity {
         setPlacesRecyclerView(placeList);
 
 
-        Favorites fav = new Favorites();
+        Favourites fav = new Favourites();
         fav.setPlaceList(placeList);
         fav.setName("testList");
         fav.setDate(LocalDate.of(2022,10,10));
@@ -68,6 +74,8 @@ public class Home extends AppCompatActivity {
         favoritesList.add(fav);
         favoritesList.add(fav);
         setFavoritesRecyclerView(favoritesList);
+
+        setOnClickListeners();
     }
 
     private void setCityRecyclerView(List<City> cityList) {
@@ -86,11 +94,40 @@ public class Home extends AppCompatActivity {
         placeRecyclerView.setAdapter(placeHomeAdapter);
     }
 
-    private void setFavoritesRecyclerView(List<Favorites> favoritesList) {
+    private void setFavoritesRecyclerView(List<Favourites> favoritesList) {
         favoritesRecyclerView = findViewById(R.id.favoritesRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false);
         favoritesRecyclerView.setLayoutManager(layoutManager);
-        favoritsListAdapter = new FavoritsListAdapter(this,favoritesList);
+        favoritsListAdapter = new FavouritesListAdapter(this,favoritesList);
         favoritesRecyclerView.setAdapter(favoritsListAdapter);
+    }
+
+    public void setOnClickListeners(){
+        favoritesImage = findViewById(R.id.favoritesIconHome);
+        guidesImage = findViewById(R.id.guideIconHome);
+        userProfileImage = findViewById(R.id.userProfileIconHome);
+        favoritesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, FavouritesList.class);
+                startActivity(intent);
+            }
+        });
+        guidesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, GuideList.class);
+                startActivity(intent);
+            }
+        });
+
+        userProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, UserProfile.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
