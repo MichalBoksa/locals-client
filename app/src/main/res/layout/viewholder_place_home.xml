@@ -69,7 +69,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
         <TextView
-            android:id="@+id/ratingTVHome"
+            android:id="@+id/ratingTVPlaceList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -82,15 +82,16 @@
             app:layout_constraintTop_toTopOf="@+id/placeNameTVHome" />
 
         <ImageView
-            android:id="@+id/starImageHome"
+            android:id="@+id/starImagePlaceList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/ratingTVHome"
-            app:layout_constraintEnd_toStartOf="@+id/ratingTVHome"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingTVPlaceList"
+            app:layout_constraintEnd_toStartOf="@+id/ratingTVPlaceList"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/placeNameTVHome"
-            app:layout_constraintTop_toTopOf="@+id/ratingTVHome"
+            app:layout_constraintTop_toTopOf="@+id/ratingTVPlaceList"
             app:srcCompat="@drawable/star" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

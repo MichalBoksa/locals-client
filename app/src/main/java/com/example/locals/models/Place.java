@@ -12,6 +12,8 @@ public class Place implements Serializable {
     List<String> images;
     String bookingUrl;
     Double rating;
+    String cityPlace;
+
 
     public String getPlaceName() {
         return placeName;
@@ -68,4 +70,13 @@ public class Place implements Serializable {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    public String getCityPlace() {
+        return cityPlace;
+    }
+
+    public void setCityPlace(String cityPlace) {
+        this.cityPlace = cityPlace;
+    }
+
 }

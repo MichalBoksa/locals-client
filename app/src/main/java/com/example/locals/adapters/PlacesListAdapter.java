@@ -16,29 +16,30 @@ import com.example.locals.models.Place;
 
 import java.util.List;
 
-public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.CitiesHomeViewHolder> {
+public class PlacesListAdapter extends RecyclerView.Adapter<PlacesListAdapter.ViewHolder> {
 
     Context context;
     List<Place> placeList;
 
-    public PlaceHomeAdapter(Context context, List<Place> placeList) {
+    public PlacesListAdapter(Context context, List<Place> placeList) {
         this.context = context;
         this.placeList = placeList;
     }
 
+
     @NonNull
     @Override
-    public PlaceHomeAdapter.CitiesHomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlacesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //TODO check this
-        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_place_home, parent, false);
-        return new CitiesHomeViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_place_list, parent, false);
+        return new PlacesListAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CitiesHomeViewHolder holder, int position) {
-        holder.titleTV.setText(placeList.get(position).getPlaceName());
-        holder.cityNameTV.setText(placeList.get(position).getPlaceName());
+    public void onBindViewHolder(@NonNull PlacesListAdapter.ViewHolder holder, int position) {
+        holder.placeNameTV.setText(placeList.get(position).getPlaceName());
+        holder.cityNameTV.setText(placeList.get(position).getCityPlace());
         holder.ratingTV.setText(placeList.get(position).getRating().toString());
         Glide.with(holder.itemView.getContext())
                 .load(placeList.get(position).getImages().get(0))
@@ -51,19 +52,19 @@ public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.Citi
         return placeList.size();
     }
 
-    public class CitiesHomeViewHolder extends RecyclerView.ViewHolder{
-        TextView titleTV;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView placeNameTV;
         TextView cityNameTV;
         TextView ratingTV;
         ImageView placeImage;
 
-        public CitiesHomeViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            titleTV = itemView.findViewById(R.id.titleTVHome);
-            cityNameTV = itemView.findViewById(R.id.placeNameTVHome);
+            placeNameTV = itemView.findViewById(R.id.placeNameTVPlaceList);
+            cityNameTV = itemView.findViewById(R.id.placeCityTVPlaceList);
             ratingTV = itemView.findViewById(R.id.ratingTVPlaceList);
-            placeImage = itemView.findViewById(R.id.placeImageHome);
+            placeImage = itemView.findViewById(R.id.placeImagePlaceList);
         }
     }
 }

@@ -16,7 +16,6 @@ import com.example.locals.adapters.PlaceHomeAdapter;
 import com.example.locals.models.City;
 import com.example.locals.models.Favourites;
 import com.example.locals.models.Place;
-import com.example.locals.models.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -109,7 +108,7 @@ public class Home extends AppCompatActivity {
         favoritesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, FavouritesList.class);
+                Intent intent = new Intent(Home.this, PlacesList.class);
                 startActivity(intent);
             }
         });
@@ -128,6 +127,8 @@ public class Home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
     }
 }

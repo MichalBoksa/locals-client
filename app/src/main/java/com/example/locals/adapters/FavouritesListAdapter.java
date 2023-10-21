@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.locals.R;
-import com.example.locals.activities.FavouritesList;
+import com.example.locals.activities.PlacesList;
 import com.example.locals.models.Favourites;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, FavouritesList.class);
+                Intent intent = new Intent(context, PlacesList.class);
                 context.startActivity(intent);
             }
         });

@@ -27,7 +27,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="220dp"
                 android:background="#529892"
                 android:orientation="vertical"
                 android:padding="16dp">
@@ -202,7 +202,7 @@
                     android:textColor="@color/yellow"
                     android:textSize="40sp"
                     android:textStyle="bold"/>
-e
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
