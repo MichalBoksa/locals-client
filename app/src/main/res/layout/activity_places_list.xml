@@ -60,11 +60,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="6dp"
+                android:text="Must-see attractions"
+                android:textColor="@color/yellow"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/placesListRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp" />
 

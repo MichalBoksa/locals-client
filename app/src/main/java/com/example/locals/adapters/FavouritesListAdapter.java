@@ -43,6 +43,7 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
                 .load(favouritesList.get(position).getPlaceList().get(0).getImages().get(0))
                 .into(holder.listImage);
 
+        //TODO check what's here
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

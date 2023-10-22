@@ -8,7 +8,10 @@ public class Guide {
     List<String> languages;
     Integer price;
     String guideCity;
+    String description;
     List<String> Activities;
+    String Image;
+
 
     public String getName() {
         return name;
@@ -56,5 +59,21 @@ public class Guide {
 
     public void setActivities(List<String> activities) {
         Activities = activities;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
