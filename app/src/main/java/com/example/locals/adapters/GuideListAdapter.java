@@ -40,7 +40,7 @@ public class GuideListAdapter extends RecyclerView.Adapter<GuideListAdapter.View
         holder.guidePrice.setText(guideList.get(position).getPrice().toString());
 
         Glide.with(holder.itemView.getContext())
-                .load(guideList.get(position).getImage())
+                .load(guideList.get(position).getImageURL())
                 .into(holder.guideImage);
     }
 

@@ -3,14 +3,13 @@ package com.example.locals.models;
 import java.util.List;
 
 public class Guide {
-    String name;
-    String lastName;
-    List<String> languages;
-    Integer price;
-    String guideCity;
-    String description;
-    List<String> Activities;
-    String Image;
+   private String name;
+   private List<String> languages;
+   private Integer price;
+   private String guideCity;
+   private String description;
+   private List<String> Activities;
+   private String ImageURL;
 
 
     public String getName() {
@@ -20,15 +19,6 @@ public class Guide {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public List<String> getLanguages() {
         return languages;
     }
@@ -58,15 +48,15 @@ public class Guide {
     }
 
     public void setActivities(List<String> activities) {
-        Activities = activities;
+        this.Activities = activities;
     }
 
-    public String getImage() {
-        return Image;
+    public String getImageURL() {
+        return ImageURL;
     }
 
-    public void setImage(String image) {
-        Image = image;
+    public void setImageURL(String ImageURL) {
+        this.ImageURL = ImageURL;
     }
 
     public String getDescription() {

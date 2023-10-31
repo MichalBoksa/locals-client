@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Place implements Serializable {
 
-    String placeName;
-    String description;
-    Double price;
-    String currency;
-    List<String> images;
-    String bookingUrl;
-    Double rating;
-    String cityPlace;
+    private String placeName;
+    private String description;
+    private Double price;
+    private String currency;
+    private List<String> images;
+    private String bookingUrl;
+    private Double rating;
+    private String cityPlace;
 
 
     public String getPlaceName() {

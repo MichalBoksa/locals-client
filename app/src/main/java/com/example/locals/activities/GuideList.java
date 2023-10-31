@@ -34,7 +34,7 @@ public class GuideList extends AppCompatActivity {
         guide.setName("Michal");
         guide.setGuideCity("Lodz");
         guide.setLanguages(Arrays.asList("English","Polish","German"));
-        guide.setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBvP_5lvlONHOO560KFrjgkWl-ybK3RAsbe1XrX8PfnOs1rGRv-py-1wVgE9jRroAGs2o&usqp=CAU");
+        guide.setImageURL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBvP_5lvlONHOO560KFrjgkWl-ybK3RAsbe1XrX8PfnOs1rGRv-py-1wVgE9jRroAGs2o&usqp=CAU");
         guide.setPrice(15);
         guide.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie rutrum elementum.");
         guideList.add(guide);

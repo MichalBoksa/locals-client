@@ -1,8 +1,8 @@
 package com.example.locals.models;
 
 public class City {
-    String cityName;
-    String imageURL;
+   private String cityName;
+    private String imageURL;
 
     public City(String cityName, String imageURL) {
         this.cityName = cityName;

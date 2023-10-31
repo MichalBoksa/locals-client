@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Favourites {
-    String name;
-    LocalDate date;
-    List<Place> placeList;
+   private String name;
+   private LocalDate date;
+    private List<Place> placeList;
 
     public String getName() {
         return name;
