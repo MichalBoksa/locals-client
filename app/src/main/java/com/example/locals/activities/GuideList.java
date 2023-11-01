@@ -30,19 +30,7 @@ public class GuideList extends AppCompatActivity {
 
         backArrow = findViewById(R.id.backArrowGuideList);
         setOnClickListeners();
-        Guide guide = new Guide();
-        guide.setName("Michal");
-        guide.setGuideCity("Lodz");
-        guide.setLanguages(Arrays.asList("English","Polish","German"));
-        guide.setImageURL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBvP_5lvlONHOO560KFrjgkWl-ybK3RAsbe1XrX8PfnOs1rGRv-py-1wVgE9jRroAGs2o&usqp=CAU");
-        guide.setPrice(15);
-        guide.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie rutrum elementum.");
-        guideList.add(guide);
-        guideList.add(guide);
-        guideList.add(guide);
-        guideList.add(guide);
-        guideList.add(guide);
-        guideList.add(guide);
+
         setRecyclerView(guideList);
     }
 
@@ -63,4 +51,5 @@ public class GuideList extends AppCompatActivity {
         adapter = new GuideListAdapter(this,guideList);
         recyclerView.setAdapter(adapter);
     }
+
 }

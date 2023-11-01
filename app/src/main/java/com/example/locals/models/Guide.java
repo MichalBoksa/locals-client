@@ -3,14 +3,25 @@ package com.example.locals.models;
 import java.util.List;
 
 public class Guide {
+   private int id;
    private String name;
-   private List<String> languages;
+    private String city;
+   private String languages;
    private Integer price;
-   private String guideCity;
-   private String description;
-   private List<String> Activities;
-   private String ImageURL;
+   private String phoneNumber;
+   private String aboutMe;
+   private String whatToOffer;
+   private String imageURL;
+   private String activities;
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -18,13 +29,6 @@ public class Guide {
 
     public void setName(String name) {
         this.name = name;
-    }
-    public List<String> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
     }
 
     public Integer getPrice() {
@@ -35,35 +39,60 @@ public class Guide {
         this.price = price;
     }
 
-    public String getGuideCity() {
-        return guideCity;
-    }
-
-    public void setGuideCity(String guideCity) {
-        this.guideCity = guideCity;
-    }
-
-    public List<String> getActivities() {
-        return Activities;
-    }
-
-    public void setActivities(List<String> activities) {
-        this.Activities = activities;
-    }
 
     public String getImageURL() {
-        return ImageURL;
+        return imageURL;
     }
 
-    public void setImageURL(String ImageURL) {
-        this.ImageURL = ImageURL;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLanguages() {
+        return languages;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
+    }
+
+    public String getWhatToOffer() {
+        return whatToOffer;
+    }
+
+    public void setWhatToOffer(String whatToOffer) {
+        this.whatToOffer = whatToOffer;
+    }
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

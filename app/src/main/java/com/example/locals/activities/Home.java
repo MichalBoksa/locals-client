@@ -15,12 +15,15 @@ import com.example.locals.MainActivity;
 import com.example.locals.R;
 import com.example.locals.adapters.CityHomeAdapter;
 import com.example.locals.adapters.FavouritesListAdapter;
+import com.example.locals.adapters.GuideListAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
 import com.example.locals.models.City;
 import com.example.locals.models.Favourites;
+import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
 import com.example.locals.models.LocationSearch;
 import com.example.locals.models.Place;
+import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
 
@@ -36,78 +39,30 @@ import retrofit2.Response;
 
 public class Home extends AppCompatActivity {
 
-   private RecyclerView cityRecyclerView;
+   private RecyclerView guideRecyclerView;
    private RecyclerView placeRecyclerView;
    private RecyclerView favoritesRecyclerView;
-   private CityHomeAdapter cityHomeAdapter;
+   private GuideListAdapter guideAdapter;
    private PlaceHomeAdapter placeHomeAdapter;
     private FavouritesListAdapter favoritsListAdapter;
-    private List<City> cityList = new ArrayList<>();
+    private List<Guide> guideList = new ArrayList<>();
     private List<Place> placeList = new ArrayList<>();
     private List<Favourites> favoritesList = new ArrayList<>();
     private ImageView favoritesImage;
     private ImageView guidesImage;
     private ImageView userProfileImage;
     private final String cityName = "Paris";
+    RetrofitService retrofit;
     
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        RetrofitService retrofit = new RetrofitService();
+        retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
-
-//  COMMENTED TO LIMIT API CALLS CUZ FIRST 5000 IT'S FREE :/
-//        final Call<List<LocationDetails>> getCityAttractions = retrofit
-//                                                                .getRetrofit()
-//                                                                .create(LocationApi.class)
-//                                                                .getCityAttractions(cityName);
-//        getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
-//            @Override
-//            public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {
-//                if(response.body() != null && !response.body().isEmpty()) {
-//                    setPlacesRecyclerView(response.body());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<LocationDetails>> call, Throwable t) {
-//                System.out.println(call);
-//                Toast.makeText(Home.this, "call error",Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-        //HERE I MAKE ONLY ONE API CALL
-        final Call<LocationDetails> getPlaceDetails = retrofit
-                .getRetrofit()
-                .create(LocationApi.class)
-                .getLocationDetails("189258");
-
-        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
-            @Override
-            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
-                if(response.body() != null) {
-                 List<LocationDetails> list = Arrays.asList(response.body());
-                    setPlacesRecyclerView(list);
-                }
-            }
-            @Override
-            public void onFailure(Call<LocationDetails> call, Throwable t) {
-                System.out.println(call);
-                Toast.makeText(Home.this, "call error",Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-        cityList.add(new City("Test City", "https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"));
-        cityList.add(new City("Test City", "https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"));
-        cityList.add(new City("Test City", "https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"));
-        cityList.add(new City("Test City", "https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"));
-        cityList.add(new City("Test City", "https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"));
-        setCityRecyclerView(cityList);
-
+        setRecommendedPlaces();
+        setRecommendedGuides();
 
 
         Place place = new Place();
@@ -137,12 +92,12 @@ public class Home extends AppCompatActivity {
         setOnClickListeners();
     }
 
-    private void setCityRecyclerView(List<City> cityList) {
-        cityRecyclerView = findViewById(R.id.cityRV);
+    private void setGuideRecyclerView(List<Guide> guideList) {
+        guideRecyclerView = findViewById(R.id.cityRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false);
-        cityRecyclerView.setLayoutManager(layoutManager);
-        cityHomeAdapter = new CityHomeAdapter(this, cityList);
-        cityRecyclerView.setAdapter(cityHomeAdapter);
+        guideRecyclerView.setLayoutManager(layoutManager);
+        guideAdapter = new GuideListAdapter(this, guideList);
+        guideRecyclerView.setAdapter(guideAdapter);
     }
 
     private void setPlacesRecyclerView(List<LocationDetails> placeList) {
@@ -187,8 +142,72 @@ public class Home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    public void setRecommendedPlaces() {
 
+//  COMMENTED TO LIMIT API CALLS CUZ FIRST 5000 IT'S FREE :/
+//        final Call<List<LocationDetails>> getCityAttractions = retrofit
+//                                                                .getRetrofit()
+//                                                                .create(LocationApi.class)
+//                                                                .getCityAttractions(cityName);
+//        getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
+//            @Override
+//            public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {
+//                if(response.body() != null && !response.body().isEmpty()) {
+//                    setPlacesRecyclerView(response.body());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<LocationDetails>> call, Throwable t) {
+//                System.out.println(call);
+//                Toast.makeText(Home.this, "call error",Toast.LENGTH_LONG).show();
+//            }
+//        });
 
+        //HERE I MAKE ONLY ONE API CALL
+        final Call<LocationDetails> getPlaceDetails = retrofit
+                .getRetrofit()
+                .create(LocationApi.class)
+                .getLocationDetails("189258");
+
+        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
+            @Override
+            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
+                if(response.body() != null) {
+                    List<LocationDetails> list = Arrays.asList(response.body());
+                    setPlacesRecyclerView(list);
+                }
+            }
+            @Override
+            public void onFailure(Call<LocationDetails> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(Home.this, "location call error",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void setRecommendedGuides() {
+
+        final Call<List<Guide>> getCityGuides = retrofit
+                .getRetrofit()
+                .create(GuideApi.class)
+                .getCityGuides(cityName);
+
+        getCityGuides.enqueue(new Callback<List<Guide>>() {
+            @Override
+            public void onResponse(Call<List<Guide>> call, Response<List<Guide>> response) {
+                if(response.body() != null && !response.body().isEmpty()) {
+                    setGuideRecyclerView(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Guide>> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(Home.this, "guide call error",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

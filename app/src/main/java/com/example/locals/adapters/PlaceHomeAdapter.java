@@ -22,8 +22,8 @@ import java.util.List;
 
 public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.CitiesHomeViewHolder> {
 
-    Context context;
-    List<LocationDetails> placeList;
+   private Context context;
+   private List<LocationDetails> placeList;
 
     public PlaceHomeAdapter(Context context, List<LocationDetails> placeList) {
         this.context = context;
@@ -80,7 +80,7 @@ public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.Citi
         }
     }
 
-    public String getLocationId(Integer position) {
+    private String getLocationId(int position) {
         return placeList.get(position).getLocation_id();
     }
 }

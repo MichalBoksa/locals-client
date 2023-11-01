@@ -80,12 +80,10 @@ public class PlaceDetails extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onFailure(Call<LocationDetails> call, Throwable t) {
                 System.out.println(call);
                 Toast.makeText(PlaceDetails.this, "call error",Toast.LENGTH_LONG).show();
-
             }
         });
 
