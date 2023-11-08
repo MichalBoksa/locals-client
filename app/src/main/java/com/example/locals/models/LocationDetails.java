@@ -10,6 +10,7 @@ public class LocationDetails {
         private LocationAddress address_obj;
         private Double rating;
         private List<String> imagesURLList;
+        private Integer num_reviews;
 
         public String getLocation_id() {
             return location_id;
@@ -67,5 +68,11 @@ public class LocationDetails {
             this.imagesURLList = imagesURLList;
         }
 
+    public Integer getNum_reviews() {
+        return num_reviews;
+    }
 
+    public void setNum_reviews(Integer num_reviews) {
+        this.num_reviews = num_reviews;
+    }
 }

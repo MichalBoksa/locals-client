@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,14 +23,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#529892"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
         android:paddingBottom="20dp">
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/backArrowFavoritesList"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +50,7 @@
             />
 
         <ImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/addNewFavoritesList"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="50dp"
@@ -61,6 +60,14 @@
             app:srcCompat="@drawable/baseline_add_24" />
 
     </LinearLayout>
+
+<!--            <androidx.fragment.app.FragmentContainerView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:name="com.example.locals.fragments.AddFavoritesListFragment"-->
+<!--                android:id="@+id/addFavoritesListFragment"-->
+<!--                >-->
+<!--            </androidx.fragment.app.FragmentContainerView>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,14 +82,27 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"
-                    android:textColor="@color/black"
-                    android:textSize="18dp"
-                    android:text="Lists" />
+                    android:textColor="@color/yellow"
+                    android:textSize="20sp"
+                    android:text="Saved lists" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favoritesListRV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"/>
+
+            <TextView
+                android:id="@+id/ifListEmptyFavoritesListTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                />
 
 
         </LinearLayout>

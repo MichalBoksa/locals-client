@@ -10,27 +10,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.locals.MainActivity;
 import com.example.locals.R;
-import com.example.locals.adapters.CityHomeAdapter;
-import com.example.locals.adapters.FavouritesListAdapter;
+import com.example.locals.adapters.FavoritesListAdapter;
 import com.example.locals.adapters.GuideListAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
-import com.example.locals.models.City;
-import com.example.locals.models.Favourites;
+import com.example.locals.models.Favorites;
 import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
-import com.example.locals.models.LocationSearch;
 import com.example.locals.models.Place;
+import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,15 +42,17 @@ public class Home extends AppCompatActivity {
    private RecyclerView favoritesRecyclerView;
    private GuideListAdapter guideAdapter;
    private PlaceHomeAdapter placeHomeAdapter;
-    private FavouritesListAdapter favoritsListAdapter;
+    private FavoritesListAdapter favoritsListAdapter;
     private List<Guide> guideList = new ArrayList<>();
     private List<Place> placeList = new ArrayList<>();
-    private List<Favourites> favoritesList = new ArrayList<>();
+    private ArrayList<Favorites> favoritesList = new ArrayList<Favorites>();
     private ImageView favoritesImage;
     private ImageView guidesImage;
     private ImageView userProfileImage;
     private final String cityName = "Paris";
+
     RetrofitService retrofit;
+    Integer a = 4;
     
 
     @Override
@@ -62,7 +62,9 @@ public class Home extends AppCompatActivity {
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         setRecommendedPlaces();
+        setUserFavorites();
         setRecommendedGuides();
+
 
 
         Place place = new Place();
@@ -76,18 +78,6 @@ public class Home extends AppCompatActivity {
               placeList.add(place);
               placeList.add(place);
 //        setPlacesRecyclerView(placeList);
-
-
-        Favourites fav = new Favourites();
-        fav.setPlaceList(placeList);
-        fav.setName("testList");
-        fav.setDate(LocalDate.of(2022,10,10));
-        favoritesList.add(fav);
-        favoritesList.add(fav);
-        favoritesList.add(fav);
-        favoritesList.add(fav);
-        favoritesList.add(fav);
-        setFavoritesRecyclerView(favoritesList);
 
         setOnClickListeners();
     }
@@ -108,11 +98,11 @@ public class Home extends AppCompatActivity {
         placeRecyclerView.setAdapter(placeHomeAdapter);
     }
 
-    private void setFavoritesRecyclerView(List<Favourites> favoritesList) {
+    private void setFavoritesRecyclerView(List<Favorites> favoritesList) {
         favoritesRecyclerView = findViewById(R.id.favoritesRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false);
         favoritesRecyclerView.setLayoutManager(layoutManager);
-        favoritsListAdapter = new FavouritesListAdapter(this,favoritesList);
+        favoritsListAdapter = new FavoritesListAdapter(this,favoritesList);
         favoritesRecyclerView.setAdapter(favoritsListAdapter);
     }
 
@@ -123,7 +113,10 @@ public class Home extends AppCompatActivity {
         favoritesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, PlacesList.class);
+                Intent intent = new Intent(Home.this, FavoritesList.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("USER_FAVORITES_LIST",favoritesList);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -146,7 +139,7 @@ public class Home extends AppCompatActivity {
 
     public void setRecommendedPlaces() {
 
-//  COMMENTED TO LIMIT API CALLS CUZ FIRST 5000 IT'S FREE :/
+//  COMMENTED TO LIMIT API CALLS CUZ FIRST 5000 IS FREE :/
 //        final Call<List<LocationDetails>> getCityAttractions = retrofit
 //                                                                .getRetrofit()
 //                                                                .create(LocationApi.class)
@@ -210,4 +203,33 @@ public class Home extends AppCompatActivity {
             }
         });
     }
+
+
+    public void setUserFavorites() {
+
+        //TODO change userId
+        final Call<ArrayList<Favorites>> getUserFavorites = retrofit
+                .getRetrofit()
+                .create(FavoritesApi.class)
+                .getUserFavorites(a);
+
+        getUserFavorites.enqueue(new Callback<ArrayList<Favorites>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Favorites>> call, Response<ArrayList<Favorites>> response) {
+                if(response.body() != null && !response.body().isEmpty()) {
+                    favoritesList = response.body();
+                    setFavoritesRecyclerView(favoritesList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Favorites>> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(Home.this, "favorites call error" + call,Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+
 }

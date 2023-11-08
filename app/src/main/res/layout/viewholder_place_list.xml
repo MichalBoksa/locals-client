@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/placeImagePlaceList"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="164dp"
+        android:layout_height="141dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:scaleType="fitXY"
@@ -24,61 +24,86 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="148dp"
+        android:layout_marginTop="16dp"
         android:text="TestCity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="16sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/placeImagePlaceList"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/placeNameTVPlaceList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="176dp"
+        android:layout_height="73dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:text="TestPlaceName"
+        android:textColor="@color/white"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/placeImagePlaceList"
         app:layout_constraintTop_toBottomOf="@+id/placeCityTVPlaceList" />
 
     <ImageView
         android:id="@+id/starImagePlaceList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/pricePlaceListTV"
-        app:layout_constraintEnd_toStartOf="@+id/ratingTVPlaceList"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/view4"
+        app:layout_constraintStart_toEndOf="@+id/placeImagePlaceList"
         app:srcCompat="@drawable/star" />
 
     <TextView
         android:id="@+id/ratingTVPlaceList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
         android:text="0.0"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/pricePlaceListTV"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/view4"
+        app:layout_constraintStart_toEndOf="@+id/starImagePlaceList"
+        tools:layout_editor_absoluteY="126dp" />
 
     <TextView
-        android:id="@+id/pricePlaceListTV"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
-        android:text="Test Price"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
+        android:text="("
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/view4"
+        app:layout_constraintStart_toEndOf="@+id/ratingTVPlaceList" />
+
+    <TextView
+        android:id="@+id/opinionsNumberPlaceListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="56"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/view4"
+        app:layout_constraintStart_toEndOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text=" opinions)"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/opinionsNumberPlaceListTV" />
 
     <View
+        android:id="@+id/view4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"

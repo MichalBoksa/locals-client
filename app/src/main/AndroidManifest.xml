@@ -26,9 +26,15 @@
             android:name=".activities.PlaceDetails"
             android:exported="false" />
         <activity
+            android:name=".activities.FavoritesList"
+            android:exported="false" />
+        <activity
             android:name=".activities.PlacesList"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".activities.FavoritesListDetails"
+            android:exported="false" />
         <activity
             android:name=".activities.Home"
             android:exported="true">

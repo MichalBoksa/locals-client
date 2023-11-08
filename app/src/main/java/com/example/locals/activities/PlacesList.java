@@ -13,6 +13,7 @@ import com.example.locals.R;
 import com.example.locals.adapters.CityHomeAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
 import com.example.locals.adapters.PlacesListAdapter;
+import com.example.locals.models.LocationDetails;
 import com.example.locals.models.Place;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class PlacesList extends AppCompatActivity {
     ImageView backArrow;
     RecyclerView recyclerView;
     PlacesListAdapter placesAdapter;
-    List<Place> placeList= new ArrayList<>();
+    List<LocationDetails> placeList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +35,21 @@ public class PlacesList extends AppCompatActivity {
         backArrow = findViewById(R.id.backArrowTravelSearch);
         setOnClickListeners();
 
-        Place place = new Place();
-        place.setPlaceName("test Place");
-        place.setDescription("test desc");
-        place.setRating(4.3);
-        place.setCityPlace("Warsaw");
-        place.setImages(new ArrayList<>(Collections.singletonList("https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")));
-        placeList.add(place);
-        placeList.add(place);
-        placeList.add(place);
-        placeList.add(place);
-        placeList.add(place);
-        setRecyclerView(placeList);
+//        Place place = new Place();
+//        place.setPlaceName("test Place");
+//        place.setDescription("test desc");
+//        place.setRating(4.3);
+//        place.setCityPlace("Warsaw");
+//        place.setImages(new ArrayList<>(Collections.singletonList("https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")));
+//        placeList.add(place);
+//        placeList.add(place);
+//        placeList.add(place);
+//        placeList.add(place);
+//        placeList.add(place);
+//        setRecyclerView(placeList);
     }
 
-    public void setRecyclerView(List<Place> placeList){
+    public void setRecyclerView(List<LocationDetails> placeList){
         recyclerView = findViewById(R.id.placesListRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);

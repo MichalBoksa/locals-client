@@ -13,7 +13,7 @@ public interface GuideApi {
 
     @Headers("Accept: application/json")
     @GET("/guide/cityGuides/{city}")
-    Call<List<Guide>> getCityGuides(@Path("city") String CityName);
+    Call<List<Guide>> getCityGuides(@Path("city") String cityName);
 
     @Headers("Accept: application/json")
     @GET("/guide/guideDetails/{id}")

@@ -1,6 +1,7 @@
 package com.example.locals.retrofit;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -11,10 +12,13 @@ public class RetrofitService {
     private Retrofit retrofit;
 
     public void initializeRetrofit() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
         retrofit = new Retrofit.Builder()
                // .baseUrl("http://192.168.32.6:9090")
                 .baseUrl("http://192.168.56.1:9090")
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

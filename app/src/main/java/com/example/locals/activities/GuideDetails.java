@@ -10,13 +10,18 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.locals.R;
+import com.example.locals.adapters.BulletListAdapter;
 import com.example.locals.models.Guide;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.RetrofitService;
+
+import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +38,9 @@ public class GuideDetails extends AppCompatActivity {
     TextView guideWhatToOfferTV;
     RecyclerView languagesRV;
     RecyclerView activitiesRV;
+
+    BulletListAdapter languagesAdapter;
+    BulletListAdapter activitiesAdapter;
     Button bookLocalBtn;
     Button contactBtn;
 
@@ -47,6 +55,7 @@ public class GuideDetails extends AppCompatActivity {
         retrofit.initializeRetrofit();
         int guideId = getIntent().getExtras().getInt("GUIDE_ID");
 
+
         guideImage = findViewById(R.id.imageGuideDetails);
         backArrow = findViewById(R.id.backGuideDetailsBtn);
         guideNameTV = findViewById(R.id.nameGuideDetailsTV);
@@ -54,6 +63,7 @@ public class GuideDetails extends AppCompatActivity {
         guidePriceTV = findViewById(R.id.priceGuideDetailsTV);
         guideAboutMeTV = findViewById(R.id.aboutMeGuideDetailsTV);
         guideWhatToOfferTV = findViewById(R.id.GuidingDescGuideDetailsTV);
+        setOnClickListeners();
 
         final Call<Guide> getGuideDetails = retrofit
                 .getRetrofit()
@@ -72,6 +82,8 @@ public class GuideDetails extends AppCompatActivity {
                     guidePriceTV.setText(response.body().getPrice().toString());
                     guideAboutMeTV.setText(response.body().getAboutMe());
                     guideWhatToOfferTV.setText(response.body().getWhatToOffer());
+                    setActivitiesRecyclerView(Arrays.asList(response.body().getActivities().split(",")));
+                    setLanguagesRecyclerView(Arrays.asList(response.body().getLanguages().split(",")));
                 }
             }
 
@@ -94,5 +106,21 @@ public class GuideDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setLanguagesRecyclerView(List<String> languagesList) {
+        languagesRV = findViewById(R.id.languagesGuideDetailsRV);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        languagesRV.setLayoutManager(layoutManager);
+        languagesAdapter = new BulletListAdapter(this,languagesList);
+        languagesRV.setAdapter(languagesAdapter);
+    }
+
+    private void setActivitiesRecyclerView(List<String> activitiesList) {
+        activitiesRV = findViewById(R.id.activitiesGuideDetailsRV);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        activitiesRV.setLayoutManager(layoutManager);
+        languagesAdapter = new BulletListAdapter(this,activitiesList);
+        activitiesRV.setAdapter(languagesAdapter);
     }
 }
