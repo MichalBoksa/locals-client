@@ -21,6 +21,8 @@ import com.example.locals.models.Favorites;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.utils.PKCE;
+
 import java.sql.Date;
 import java.util.Calendar;
 import retrofit2.Call;
@@ -30,9 +32,9 @@ import retrofit2.Response;
 public class AddFavoritesListFragment extends DialogFragment {
 
     private ImageView closeFragment;
-    private TextView startDate;
-    private TextView endDate;
-    private EditText listName;
+    private TextView startDateTV;
+    private TextView endDateTV;
+    private EditText listNameET;
     private Button addListBtn;
     private DatePickerDialog.OnDateSetListener startDateSetListener;
     private DatePickerDialog.OnDateSetListener endDateSetListener;
@@ -48,13 +50,12 @@ public class AddFavoritesListFragment extends DialogFragment {
         retrofit.initializeRetrofit();
         favorites = new Favorites();
         closeFragment = (ImageView) view.findViewById(R.id.closeAddFavoritesList);
-        startDate = (TextView) view.findViewById(R.id.startDateAddFavoritesListFragmentTV);
-        endDate = (TextView) view.findViewById(R.id.endDateAddFavoritesListFragmentTV);
+        startDateTV = (TextView) view.findViewById(R.id.startDateAddFavoritesListFragmentTV);
+        endDateTV = (TextView) view.findViewById(R.id.endDateAddFavoritesListFragmentTV);
         addListBtn = (Button) view.findViewById(R.id.AddFavoritesListFragmentBTN);
-        listName = (EditText) view.findViewById(R.id.listNameAddFavoritesListFragmentET);
+        listNameET = (EditText) view.findViewById(R.id.listNameAddFavoritesListFragmentET);
 
         setOnClickListeners();
-
 
         return view;
     }
@@ -67,7 +68,7 @@ public class AddFavoritesListFragment extends DialogFragment {
             }
         });
 
-        startDate.setOnClickListener(new View.OnClickListener() {
+        startDateTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -87,7 +88,7 @@ public class AddFavoritesListFragment extends DialogFragment {
             }
         });
 
-        endDate.setOnClickListener(new View.OnClickListener() {
+        endDateTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -115,7 +116,7 @@ public class AddFavoritesListFragment extends DialogFragment {
                 user.setEmail("ASD@op.pl");
                 user.setId(4);
 
-                favorites.setName(listName.getText().toString());
+                favorites.setName(listNameET.getText().toString());
                 favorites.setUser(user);
                 RScall(favorites);
                 dismiss();
@@ -128,7 +129,7 @@ public class AddFavoritesListFragment extends DialogFragment {
                 month += 1;
                 String date = year + "-" + month + "-" + day;
                 favorites.setStartDate(Date.valueOf(date));
-                startDate.setText(date);
+                startDateTV.setText(date);
 
             }
         };
@@ -139,7 +140,7 @@ public class AddFavoritesListFragment extends DialogFragment {
                 month += 1;
                 String date = year + "-" + month + "-" + day;
                 favorites.setEndDate(Date.valueOf(date));
-                endDate.setText(date);
+                endDateTV.setText(date);
             }
         };
 
@@ -149,7 +150,7 @@ public class AddFavoritesListFragment extends DialogFragment {
         final Call<Void> addNewList = retrofit
                 .getRetrofit()
                 .create(FavoritesApi.class)
-                .addList(favorites);
+                .addList(PKCE.getAccessToken(this.getContext()), favorites);
 
         addNewList.enqueue(new Callback<Void>() {
             @Override

@@ -16,6 +16,7 @@ import com.example.locals.adapters.PlacesListAdapter;
 import com.example.locals.models.LocationDetails;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.utils.PKCE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class FavoritesListDetails extends AppCompatActivity {
             final Call<List<LocationDetails>> getFavoritesDetails = retrofit
                     .getRetrofit()
                     .create(FavoritesApi.class)
-                    .getFavoritesListDetails(locationIds);
+                    .getFavoritesListDetails(PKCE.getAccessToken(this), locationIds);
 
             getFavoritesDetails.enqueue(new Callback<List<LocationDetails>>() {
                 @Override

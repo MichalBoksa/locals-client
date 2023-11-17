@@ -1,6 +1,5 @@
 package com.example.locals.models;
 
-import java.util.List;
 
 public class Guide {
    private int id;
@@ -14,6 +13,9 @@ public class Guide {
    private String imageURL;
    private String activities;
 
+    public Guide(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;

@@ -16,9 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.locals.R;
 import com.example.locals.adapters.BulletListAdapter;
+import com.example.locals.fragments.AddFavoritesListFragment;
+import com.example.locals.fragments.AddGuideBookingFragment;
 import com.example.locals.models.Guide;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.utils.PKCE;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +46,8 @@ public class GuideDetails extends AppCompatActivity {
     BulletListAdapter activitiesAdapter;
     Button bookLocalBtn;
     Button contactBtn;
+    AddGuideBookingFragment dialogFragment;
+    int guideId;
 
 
 
@@ -53,7 +58,7 @@ public class GuideDetails extends AppCompatActivity {
 
         RetrofitService retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
-        int guideId = getIntent().getExtras().getInt("GUIDE_ID");
+        guideId = getIntent().getExtras().getInt("GUIDE_ID");
 
 
         guideImage = findViewById(R.id.imageGuideDetails);
@@ -63,12 +68,13 @@ public class GuideDetails extends AppCompatActivity {
         guidePriceTV = findViewById(R.id.priceGuideDetailsTV);
         guideAboutMeTV = findViewById(R.id.aboutMeGuideDetailsTV);
         guideWhatToOfferTV = findViewById(R.id.GuidingDescGuideDetailsTV);
+        bookLocalBtn = findViewById(R.id.bookGuideDetailsBtn);
         setOnClickListeners();
 
         final Call<Guide> getGuideDetails = retrofit
                 .getRetrofit()
                 .create(GuideApi.class)
-                .getGuideDetails(guideId);
+                .getGuideDetails(PKCE.getAccessToken(this),guideId);
         
         getGuideDetails.enqueue(new Callback<Guide>() {
             @Override
@@ -97,13 +103,23 @@ public class GuideDetails extends AppCompatActivity {
 
     }
 
-    public void setOnClickListeners()
-    {
+    public void setOnClickListeners() {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GuideDetails.this, Home.class);
                 startActivity(intent);
+            }
+        });
+
+        bookLocalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogFragment = new AddGuideBookingFragment();
+                Bundle args = new Bundle();
+                args.putInt("GUIDE_ID", guideId);
+                dialogFragment.setArguments(args);
+                dialogFragment.show(getSupportFragmentManager(),"addGuideBooking");
             }
         });
     }

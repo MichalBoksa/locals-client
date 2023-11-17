@@ -4,12 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.locals.MainActivity;
 import com.example.locals.R;
 import com.example.locals.adapters.FavoritesListAdapter;
 import com.example.locals.adapters.GuideListAdapter;
@@ -18,10 +25,13 @@ import com.example.locals.models.Favorites;
 import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
 import com.example.locals.models.Place;
+import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.retrofit.UserApi;
+import com.example.locals.utils.PKCE;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -50,6 +60,7 @@ public class Home extends AppCompatActivity {
     private ImageView guidesImage;
     private ImageView userProfileImage;
     private final String cityName = "Paris";
+    private TextView usernameTV;
 
     RetrofitService retrofit;
     Integer a = 4;
@@ -61,26 +72,13 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+       // setUser();
         setRecommendedPlaces();
         setUserFavorites();
         setRecommendedGuides();
-
-
-
-        Place place = new Place();
-        place.setPlaceName("test Place");
-        place.setDescription("test desc");
-        place.setRating(4.3);
-        place.setImages(new ArrayList<>(Collections.singletonList("https://images.pexels.com/photos/3849167/pexels-photo-3849167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")));
-              placeList.add(place);
-              placeList.add(place);
-              placeList.add(place);
-              placeList.add(place);
-              placeList.add(place);
-//        setPlacesRecyclerView(placeList);
-
         setOnClickListeners();
     }
+
 
     private void setGuideRecyclerView(List<Guide> guideList) {
         guideRecyclerView = findViewById(R.id.cityRV);
@@ -163,7 +161,7 @@ public class Home extends AppCompatActivity {
         final Call<LocationDetails> getPlaceDetails = retrofit
                 .getRetrofit()
                 .create(LocationApi.class)
-                .getLocationDetails("189258");
+                .getLocationDetails(PKCE.getAccessToken(this), "189258");
 
         getPlaceDetails.enqueue(new Callback<LocationDetails>() {
             @Override
@@ -186,7 +184,7 @@ public class Home extends AppCompatActivity {
         final Call<List<Guide>> getCityGuides = retrofit
                 .getRetrofit()
                 .create(GuideApi.class)
-                .getCityGuides(cityName);
+                .getCityGuides(PKCE.getAccessToken(this),cityName);
 
         getCityGuides.enqueue(new Callback<List<Guide>>() {
             @Override
@@ -211,7 +209,8 @@ public class Home extends AppCompatActivity {
         final Call<ArrayList<Favorites>> getUserFavorites = retrofit
                 .getRetrofit()
                 .create(FavoritesApi.class)
-                .getUserFavorites(a);
+                //TODO change a
+                .getUserFavorites(PKCE.getAccessToken(this), a);
 
         getUserFavorites.enqueue(new Callback<ArrayList<Favorites>>() {
             @Override
@@ -228,7 +227,40 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, "favorites call error" + call,Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    private void setUser() {
+        usernameTV = findViewById(R.id.usernameTVHome);
+        String accessCode = PKCE.getAccessToken(this);
+        final Call<User> getUser = retrofit
+                .getRetrofit()
+                .create(UserApi.class)
+                .getUser(accessCode, PKCE.getJWTUser(accessCode));
+
+        getUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.body() != null ) {
+                    //TODO it can crash cuz of models
+                    usernameTV.setText(response.body().getName());
+                    if (response.body().getImage() != null && response.body().getImage().length > 0) {
+                        Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
+                        DisplayMetrics dm = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                        userProfileImage.setMinimumHeight(dm.heightPixels);
+                        userProfileImage.setMinimumWidth(dm.widthPixels);
+                        userProfileImage.setImageBitmap(bm);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(Home.this, "location call error",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

@@ -22,4 +22,16 @@ public interface OAuth2Api {
                     @Field("code") String code,
                     @Field("code_verifier") String codeVerifier
     );
+
+    @Headers("Accept: application/json")
+    @POST("/oauth2/token")
+    @FormUrlEncoded
+    Call<OAuthToken> getRefreshToken(
+            @Header("Authorization") String authorization,
+            @Field("client_id") String clientId,
+            @Field("redirect_uri") String redirectUri,
+            @Field("grant_type") String grantType,
+            @Field("refresh_token") String refreshToken,
+            @Field("code_verifier") String codeVerifier
+    );
 }

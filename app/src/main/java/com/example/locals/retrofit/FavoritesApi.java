@@ -9,6 +9,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -17,13 +18,13 @@ public interface FavoritesApi {
 
     @Headers("Accept: application/json")
     @GET("/favorites/userFavorites/{id}")
-    Call<ArrayList<Favorites>> getUserFavorites(@Path("id") int userId);
+    Call<ArrayList<Favorites>> getUserFavorites(@Header("Authorization") String token, @Path("id") int userId);
 
     @Headers("Accept: application/json")
     @GET("/attractions/favoritesLocations/{locationIds}")
-    Call<List<LocationDetails>> getFavoritesListDetails(@Path("locationIds") String locationIds);
+    Call<List<LocationDetails>> getFavoritesListDetails(@Header("Authorization") String token,@Path("locationIds") String locationIds);
 
     @Headers("Accept: application/json")
     @POST("/favorites/addNewList")
-    Call<Void> addList(@Body Favorites favorites);
+    Call<Void> addList(@Header("Authorization") String token,@Body Favorites favorites);
 }

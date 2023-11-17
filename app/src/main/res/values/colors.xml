@@ -11,7 +11,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="reddie">#861D41</color>
     <color name="yellow">#FFEA00</color>
-    <color name="grey2">@color/material_dynamic_neutral40</color>
+    <color name="green_1">#79E7C2</color>
+    <color name="green_2">#056A48</color>
+    <color name="grey2">#8F9294</color>
     <color name="yellowback">@android:color/system_neutral1_800</color>
 
 

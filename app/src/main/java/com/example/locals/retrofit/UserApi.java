@@ -8,19 +8,20 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface UserApi {
 
-    @GET
-    Call<User> getUser();
+    @Headers("Accept: application/json")
+    @GET()
+    Call<User> getUser(@Header("Authorization") String token,  @Path("email") String email);
 
     @POST
-    Call<User> saveUser(@Body User user);
+    Call<User> saveUser(@Header("Authorization") String token, @Body User user);
 
-    @POST
-    Call<ResponseBody> signIn(@Body User user);
 
     //TODO check annotations
     @Headers("Accept: application/json")

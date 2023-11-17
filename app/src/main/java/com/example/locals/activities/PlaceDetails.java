@@ -21,6 +21,7 @@ import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
 import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.utils.PKCE;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class PlaceDetails extends AppCompatActivity {
         final Call<LocationDetails> getPlaceDetails = retrofit
                                                     .getRetrofit()
                                                     .create(LocationApi.class)
-                                                    .getLocationDetails(placeid);
+                                                    .getLocationDetails(PKCE.getAccessToken(this), placeid);
 
         getPlaceDetails.enqueue(new Callback<LocationDetails>() {
             @Override
