@@ -4,11 +4,10 @@ import java.util.Set;
 
 public class User {
     private int id;
-
     private String email;
     private String name;
     private String phoneNumber;
-    private byte [] image;
+    private byte[] image;
 
 
     public int getId() {

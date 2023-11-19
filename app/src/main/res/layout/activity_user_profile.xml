@@ -28,7 +28,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="250dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -43,12 +43,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="23dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="85dp"
                         android:gravity="center"
                         android:text="Username"
                         android:textColor="@color/black"
@@ -57,21 +58,22 @@
 
                     <TextView
                         android:id="@+id/userIdTV"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="15dp"
                         android:gravity="center"
                         android:text="User id"
-                        android:textColor="#504D4D"
-                        android:textSize="12dp" />
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/imageUserProfile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:elevation="15dp"

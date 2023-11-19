@@ -9,13 +9,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.locals.MainActivity;
 import com.example.locals.R;
 import com.example.locals.adapters.FavoritesListAdapter;
@@ -33,6 +38,10 @@ import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -56,9 +65,10 @@ public class Home extends AppCompatActivity {
     private List<Guide> guideList = new ArrayList<>();
     private List<Place> placeList = new ArrayList<>();
     private ArrayList<Favorites> favoritesList = new ArrayList<Favorites>();
-    private ImageView favoritesImage;
-    private ImageView guidesImage;
-    private ImageView userProfileImage;
+    private ImageView favoritesImageIcon;
+    private ImageView guidesImageIcon;
+    private ImageView userProfileImageIcon;
+    private ImageView userImage;
     private final String cityName = "Paris";
     private TextView usernameTV;
 
@@ -72,7 +82,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
-       // setUser();
+        setUser();
         setRecommendedPlaces();
         setUserFavorites();
         setRecommendedGuides();
@@ -105,10 +115,10 @@ public class Home extends AppCompatActivity {
     }
 
     public void setOnClickListeners(){
-        favoritesImage = findViewById(R.id.favoritesIconHome);
-        guidesImage = findViewById(R.id.guideIconHome);
-        userProfileImage = findViewById(R.id.userProfileIconHome);
-        favoritesImage.setOnClickListener(new View.OnClickListener() {
+        favoritesImageIcon = findViewById(R.id.favoritesIconHome);
+        guidesImageIcon = findViewById(R.id.guideIconHome);
+        userProfileImageIcon = findViewById(R.id.userProfileIconHome);
+        favoritesImageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Home.this, FavoritesList.class);
@@ -118,7 +128,7 @@ public class Home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        guidesImage.setOnClickListener(new View.OnClickListener() {
+        guidesImageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Home.this, GuideList.class);
@@ -126,7 +136,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        userProfileImage.setOnClickListener(new View.OnClickListener() {
+        userProfileImageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Home.this, UserProfile.class);
@@ -242,15 +252,22 @@ public class Home extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.body() != null ) {
                     //TODO it can crash cuz of models
+                    userImage = findViewById(R.id.userImageHome);
                     usernameTV.setText(response.body().getName());
                     if (response.body().getImage() != null && response.body().getImage().length > 0) {
+//
                         Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
                         DisplayMetrics dm = new DisplayMetrics();
                         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-                        userProfileImage.setMinimumHeight(dm.heightPixels);
-                        userProfileImage.setMinimumWidth(dm.widthPixels);
-                        userProfileImage.setImageBitmap(bm);
+                        userImage.setMinimumHeight(dm.heightPixels);
+                        userImage.setMinimumWidth(dm.widthPixels);
+                        userImage.setImageBitmap(bm);
+                   //     userImage.setImageURI(Uri.parse(uri));
+//                        Glide.with(getApplicationContext())
+//                                .load(new File(uri))
+//                                .into(userImage);
+//                       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     }
                 }
             }
@@ -258,7 +275,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 System.out.println(call);
-                Toast.makeText(Home.this, "location call error",Toast.LENGTH_LONG).show();
+                Toast.makeText(Home.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });
     }

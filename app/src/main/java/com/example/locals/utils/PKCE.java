@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.security.MessageDigest;
+import java.util.Date;
 
 public class PKCE {
 
@@ -64,6 +65,11 @@ public class PKCE {
     public static String getAuthToken(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
         return sharedPref.getString("auth_code","");
+    }
+
+    public static boolean isJWTexpired(Context context) {
+        DecodedJWT jwt = JWT.decode(PKCE.getAccessToken(context));
+        return jwt.getExpiresAt().before(new Date());
     }
 
 }

@@ -11,16 +11,17 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApi {
 
     @Headers("Accept: application/json")
-    @GET()
-    Call<User> getUser(@Header("Authorization") String token,  @Path("email") String email);
+    @GET("/RSUser/getUser/{email}")
+    Call<User> getUser(@Header("Authorization") String token, @Path("email") String email);
 
-    @POST
-    Call<User> saveUser(@Header("Authorization") String token, @Body User user);
+    @PUT("/RSUser/updateImage/{email}")
+    Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body byte[] image);
 
 
     //TODO check annotations

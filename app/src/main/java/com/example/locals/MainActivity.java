@@ -73,33 +73,32 @@ public class MainActivity extends AppCompatActivity {
 
 
           else {
-              //TODO correct token expiry time
-//              if (!authToken.isEmpty() && System.currentTimeMillis() < PKCE.getTokenExpiryTime(this))
-//              {
-//                  String refreshToken = PKCE.getRefreshToken(this);
-//                  final Call<OAuthToken> refreshTokenCall = retrofit
-//                      .getRetrofit()
-//                      .create(OAuth2Api.class)
-//                      .getRefreshToken("Basic " + authorization,"client",REDIRECT_URI,"refresh_token",refreshToken,PKCE.codeVerifier);
-//
-//                  refreshTokenCall.enqueue(new Callback<OAuthToken>() {
-//                      @Override
-//                      public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-//                          if(response.body() != null) {
-//                              saveTokenData(response);
-//                              Intent intent = new Intent(MainActivity.this, Home.class);
-//                              startActivity(intent);
-//                          }
-//                      }
-//
-//                      @Override
-//                      public void onFailure(Call<OAuthToken> call, Throwable t) {
-//                          System.out.println(call);
-//                          Toast.makeText(MainActivity.this, "Token error",Toast.LENGTH_LONG).show();
-//                      }
-//                  });
-//
-//              }
+              if (!authToken.isEmpty() && PKCE.isJWTexpired(this))
+              {
+                  String refreshToken = PKCE.getRefreshToken(this);
+                  final Call<OAuthToken> refreshTokenCall = retrofit
+                      .getRetrofit()
+                      .create(OAuth2Api.class)
+                      .getRefreshToken("Basic " + authorization,"client",REDIRECT_URI,"refresh_token",refreshToken,PKCE.codeVerifier);
+
+                  refreshTokenCall.enqueue(new Callback<OAuthToken>() {
+                      @Override
+                      public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
+                          if(response.body() != null) {
+                              saveTokenData(response);
+                              Intent intent = new Intent(MainActivity.this, Home.class);
+                              startActivity(intent);
+                          }
+                      }
+
+                      @Override
+                      public void onFailure(Call<OAuthToken> call, Throwable t) {
+                          System.out.println(call);
+                          Toast.makeText(MainActivity.this, "Token error",Toast.LENGTH_LONG).show();
+                      }
+                  });
+
+              }
 
               Intent intent = new Intent(MainActivity.this, Home.class);
               startActivity(intent);}

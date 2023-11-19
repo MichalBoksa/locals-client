@@ -4,6 +4,11 @@
     package="com.example.locals">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+
+<!--    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
 
     <application
         android:allowBackup="true"
@@ -15,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
             android:name=".activities.GuideList"
             android:exported="false" />
@@ -37,7 +42,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.Home"
-            android:exported="true">
+            android:exported="false">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -50,8 +55,6 @@
 
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
-
-
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
 
