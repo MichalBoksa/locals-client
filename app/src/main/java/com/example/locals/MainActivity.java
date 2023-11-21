@@ -73,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
           else {
-              if (!authToken.isEmpty() && PKCE.isJWTexpired(this))
-              {
+              if (!authToken.isEmpty() && PKCE.isJWTexpired(this)) {
                   String refreshToken = PKCE.getRefreshToken(this);
                   final Call<OAuthToken> refreshTokenCall = retrofit
                       .getRetrofit()

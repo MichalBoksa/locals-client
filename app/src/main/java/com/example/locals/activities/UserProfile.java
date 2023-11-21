@@ -1,5 +1,6 @@
 package com.example.locals.activities;
 
+import static android.view.View.inflate;
 import static java.text.DateFormat.DEFAULT;
 
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -22,6 +24,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
@@ -29,6 +32,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.locals.R;
+
+import com.example.locals.databinding.ActivityUserProfileBinding;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
@@ -50,6 +55,9 @@ public class UserProfile extends AppCompatActivity {
 
     ImageView backArrow;
     ImageView userImage;
+    TextView usernameTV;
+    TextView userIdTV;
+    ActivityUserProfileBinding binding;
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     int PROFILE_IMAGE_SIZE_WIDTH = 150;
     int PROFILE_IMAGE_SIZE_HEIGHT = 150;
@@ -86,12 +94,14 @@ public class UserProfile extends AppCompatActivity {
         retrofit.initializeRetrofit();
         backArrow = findViewById(R.id.backArrowUserProfile);
         userImage = findViewById(R.id.imageUserProfile);
+        usernameTV = findViewById(R.id.usernameUserProfileTV);
+        userIdTV = findViewById(R.id.userIdUserProfileTV);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_user_profile);
         setUserData();
         setOnClickListeners();
     }
 
     private void setUserData() {
-      //  usernameTV = findViewById(R.id.usernameTVHome);
         String accessCode = PKCE.getAccessToken(this);
         final Call<User> getUser = retrofit
                 .getRetrofit()
@@ -102,15 +112,19 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.body() != null ) {
-                    //TODO it can crash cuz of models
-                  //  usernameTV.setText(response.body().getName());
-                   // String uri = response.body().getImage().substring(1,response.body().getImage().length()-1);
-//                    Uri photoUri = Uri.fromFile( new File(uri));
-//                    if (response.body().getImage() != null && response.body().getImage().length() > 0) {
-//                        Glide.with(getApplicationContext())
-//                                .load(new File(uri))
-//                                .into(userImage);
-//                    }
+                    usernameTV.setText(response.body().getName());
+                    binding.emailUserProfile.setEmail(response.body().getEmail());
+                    //binding.emailUserProfile.emailUserProfile.setText();
+                    binding.phoneUserProfile.phoneNumberUserProfile.setText(response.body().getPhoneNumber());
+                    userIdTV.setText("Id: " + response.body().getId());
+                    //TODO add static method
+                    Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
+                    DisplayMetrics dm = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                    userImage.setMinimumHeight(dm.heightPixels);
+                    userImage.setMinimumWidth(dm.widthPixels);
+                    userImage.setImageBitmap(bm);
                 }
             }
 

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/grey2">
+    >
 
     <ImageView
         android:id="@+id/closeCreateLocalsBooking"
@@ -23,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:text="Make a guide booking"
-
+android:textColor="@color/green_2"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +41,7 @@
 
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-
+        android:textColor="@color/white"
         android:layout_marginEnd="32dp"
         android:text="Send message to our guide what would you like to see, visit or what are you interested in"
         android:textSize="16sp"
@@ -60,7 +62,7 @@
         android:scrollHorizontally="false"
         android:hint=""
         android:background="@drawable/rounded_rectangle"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

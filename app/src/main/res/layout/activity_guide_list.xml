@@ -28,10 +28,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:background="#529892"
+                android:layout_height="200dp"
+                android:background="@color/green_2"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="14dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_height="36dp"
 
                     android:layout_marginTop="8dp"
-                    android:text="Where would you like to go?\n"
+                    android:text="Explore the city with people from there \n"
                     android:textColor="@color/white"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -75,21 +75,22 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal">
 
 
                     <EditText
-                        android:id="@+id/editTextText"
+                        android:id="@+id/searchTabLocalsList"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="4dp"
                         android:background="@drawable/rectangle_background"
                         android:drawableStart="@drawable/search"
                         android:drawablePadding="10dp"
-                        android:ems="10"
-                        android:hint="Search for adventure"
+                        android:ems="15"
+                        android:hint="Type in a city"
                         android:inputType="text"
                         android:padding="15dp"
                         android:textColor="@color/black"
@@ -100,31 +101,22 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginTop="4dp"
+                        android:layout_marginLeft="0dp">
 
                         <ImageView
-                            android:id="@+id/imageView4"
+                            android:id="@+id/searchLocalsIconGuideList"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:background="@color/yellow"
+                            android:background="@color/green_2"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/tune" />
-
+                            app:srcCompat="@drawable/baseline_travel_explore_24" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                   android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:text="Browse locals"
-                    />
 
 
             </LinearLayout>
@@ -135,10 +127,9 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
                 android:text="Meet our locals"
-                android:textColor="@color/yellow"
+                android:textColor="@color/green_2"
                 android:textSize="20dp"
                 android:textStyle="bold" />
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/guideListRV"

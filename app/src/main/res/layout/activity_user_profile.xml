@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/grey">
+    android:background="@color/grey2">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,9 +24,9 @@
             android:id="@+id/backArrowUserProfile"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/baseline_arrow_back_24" />
+            app:srcCompat="@drawable/baseline_arrow_back_24"
+            android:layout_marginLeft="8dp" />
 
 
         <RelativeLayout
@@ -32,10 +35,10 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-
+                android:layout_height="300dp"
+                app:cardBackgroundColor="@color/green_2"
                 android:layout_marginTop="45dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardCornerRadius="15dp"
                 app:cardElevation="10dp"
                 app:cardUseCompatPadding="true">
 
@@ -44,27 +47,29 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="23dp"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    >
 
                     <TextView
+                        android:id="@+id/usernameUserProfileTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="85dp"
                         android:gravity="center"
                         android:text="Username"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/userIdTV"
+                        android:id="@+id/userIdUserProfileTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:text="User id"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -73,7 +78,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageUserProfile"
                 android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:elevation="15dp"
@@ -90,8 +95,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <include layout="@layout/viewholder_user_email"/>
-            <include layout="@layout/viewholder_user_phone"/>
+            <include layout="@layout/viewholder_user_email"
+                android:id="@+id/emailUserProfile"
+                app:email="@{@string/email}"/>
+            <include layout="@layout/viewholder_user_phone"
+                android:id="@+id/phoneUserProfile"
+                app:phone="@{@string/phone}"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,3 +112,4 @@
         </LinearLayout>
 </ScrollView>
 </LinearLayout>
+</layout>

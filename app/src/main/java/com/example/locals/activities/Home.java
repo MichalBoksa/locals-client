@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,9 @@ public class Home extends AppCompatActivity {
     private ImageView guidesImageIcon;
     private ImageView userProfileImageIcon;
     private ImageView userImage;
+    private ImageView searchTripIcon;
+
+    private EditText searchTab;
     private final String cityName = "Paris";
     private TextView usernameTV;
 
@@ -118,6 +122,9 @@ public class Home extends AppCompatActivity {
         favoritesImageIcon = findViewById(R.id.favoritesIconHome);
         guidesImageIcon = findViewById(R.id.guideIconHome);
         userProfileImageIcon = findViewById(R.id.userProfileIconHome);
+        searchTripIcon = findViewById(R.id.searchTripIconHome);
+        searchTab = findViewById(R.id.citySearchEditTextHome
+        );
         favoritesImageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +147,15 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Home.this, UserProfile.class);
+                startActivity(intent);
+            }
+        });
+
+        searchTripIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, PlacesList.class);
+                intent.putExtra("DESTINATION", searchTab.getText().toString());
                 startActivity(intent);
             }
         });
@@ -255,7 +271,6 @@ public class Home extends AppCompatActivity {
                     userImage = findViewById(R.id.userImageHome);
                     usernameTV.setText(response.body().getName());
                     if (response.body().getImage() != null && response.body().getImage().length > 0) {
-//
                         Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
                         DisplayMetrics dm = new DisplayMetrics();
                         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -263,11 +278,6 @@ public class Home extends AppCompatActivity {
                         userImage.setMinimumHeight(dm.heightPixels);
                         userImage.setMinimumWidth(dm.widthPixels);
                         userImage.setImageBitmap(bm);
-                   //     userImage.setImageURI(Uri.parse(uri));
-//                        Glide.with(getApplicationContext())
-//                                .load(new File(uri))
-//                                .into(userImage);
-//                       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     }
                 }
             }
