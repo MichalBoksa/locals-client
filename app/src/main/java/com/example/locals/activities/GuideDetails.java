@@ -74,7 +74,7 @@ public class GuideDetails extends AppCompatActivity {
         final Call<Guide> getGuideDetails = retrofit
                 .getRetrofit()
                 .create(GuideApi.class)
-                .getGuideDetails(PKCE.getAccessToken(this),guideId);
+                .getGuideDetails("Bearer " + PKCE.getAccessToken(this),guideId);
         
         getGuideDetails.enqueue(new Callback<Guide>() {
             @Override

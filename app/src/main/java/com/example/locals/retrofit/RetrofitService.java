@@ -25,13 +25,12 @@ public class RetrofitService {
 
     public void initializeRetrofit() {
         Gson gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(byte[].class,
-                        new ByteArrayToBase64TypeAdapter())
+                .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
                 .setDateFormat("yyyy-MM-dd")
                 .create();
         retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.32.6:9090")
-                .baseUrl("http://192.168.56.1:9090")
+                .baseUrl("http://192.168.32.6:9090")
+//                .baseUrl("http://192.168.56.1:9090")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
@@ -39,8 +38,8 @@ public class RetrofitService {
     public void initializeRetrofitAuth() {
 
         retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.32.6:8080")
-                .baseUrl("http://192.168.56.1:8080")
+                .baseUrl("http://192.168.32.6:8080")
+//                .baseUrl("http://192.168.56.1:8080")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }

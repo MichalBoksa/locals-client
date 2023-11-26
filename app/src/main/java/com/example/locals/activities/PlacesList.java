@@ -88,7 +88,7 @@ public class PlacesList extends AppCompatActivity {
         final Call<List<LocationDetails>> getCityAttractions = retrofit
                 .getRetrofit()
                 .create(LocationApi.class)
-                .getCityAttractions(PKCE.getAccessToken(this), cityName);
+                .getCityAttractions("Bearer " + PKCE.getAccessToken(this), cityName);
         getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
             @Override
             public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {

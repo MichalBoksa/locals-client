@@ -150,7 +150,7 @@ public class AddFavoritesListFragment extends DialogFragment {
         final Call<Void> addNewList = retrofit
                 .getRetrofit()
                 .create(FavoritesApi.class)
-                .addList(PKCE.getAccessToken(this.getContext()), favorites);
+                .addList("Bearer " + PKCE.getAccessToken(this.getContext()), favorites);
 
         addNewList.enqueue(new Callback<Void>() {
             @Override

@@ -1,20 +1,29 @@
 package com.example.locals.activities;
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,18 +48,13 @@ import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +73,7 @@ public class Home extends AppCompatActivity {
     private ImageView favoritesImageIcon;
     private ImageView guidesImageIcon;
     private ImageView userProfileImageIcon;
-    private ImageView userImage;
+    private CircleImageView userImage;
     private ImageView searchTripIcon;
 
     private EditText searchTab;
@@ -78,6 +82,10 @@ public class Home extends AppCompatActivity {
 
     RetrofitService retrofit;
     Integer a = 4;
+
+    private Intent requestFileIntent;
+    private ParcelFileDescriptor inputPFD;
+    private StorageVolume storageVolume;
     
 
     @Override
@@ -187,7 +195,7 @@ public class Home extends AppCompatActivity {
         final Call<LocationDetails> getPlaceDetails = retrofit
                 .getRetrofit()
                 .create(LocationApi.class)
-                .getLocationDetails(PKCE.getAccessToken(this), "189258");
+                .getLocationDetails("Bearer " + PKCE.getAccessToken(this), "189258");
 
         getPlaceDetails.enqueue(new Callback<LocationDetails>() {
             @Override
@@ -210,7 +218,7 @@ public class Home extends AppCompatActivity {
         final Call<List<Guide>> getCityGuides = retrofit
                 .getRetrofit()
                 .create(GuideApi.class)
-                .getCityGuides(PKCE.getAccessToken(this),cityName);
+                .getCityGuides("Bearer " + PKCE.getAccessToken(this),cityName);
 
         getCityGuides.enqueue(new Callback<List<Guide>>() {
             @Override
@@ -236,7 +244,7 @@ public class Home extends AppCompatActivity {
                 .getRetrofit()
                 .create(FavoritesApi.class)
                 //TODO change a
-                .getUserFavorites(PKCE.getAccessToken(this), a);
+                .getUserFavorites("Bearer " + PKCE.getAccessToken(this), a);
 
         getUserFavorites.enqueue(new Callback<ArrayList<Favorites>>() {
             @Override
@@ -261,23 +269,20 @@ public class Home extends AppCompatActivity {
         final Call<User> getUser = retrofit
                 .getRetrofit()
                 .create(UserApi.class)
-                .getUser(accessCode, PKCE.getJWTUser(accessCode));
+                .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
 
         getUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                System.out.println(call);
                 if(response.body() != null ) {
-                    //TODO it can crash cuz of models
                     userImage = findViewById(R.id.userImageHome);
                     usernameTV.setText(response.body().getName());
-                    if (response.body().getImage() != null && response.body().getImage().length > 0) {
-                        Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
-                        DisplayMetrics dm = new DisplayMetrics();
-                        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                        userImage.setMinimumHeight(dm.heightPixels);
-                        userImage.setMinimumWidth(dm.widthPixels);
-                        userImage.setImageBitmap(bm);
+                    if (response.body().getImageUri() != null && response.body().getImageUri().length() > 0) {
+                        String b = response.body().getImageUri();
+                        b = b.substring(1,b.length()-1);
+                        Uri uri = Uri.parse(b);
+                        userImage.setImageURI(uri);
                     }
                 }
             }
@@ -288,6 +293,14 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void openImage(View view) {
+        Uri uri = Uri.parse(storageVolume.getDirectory() + "/Download/download.jpeg");
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri,"image/jpeg");
+                startActivity(intent);
     }
 
 

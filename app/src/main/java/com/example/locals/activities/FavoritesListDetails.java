@@ -54,7 +54,7 @@ public class FavoritesListDetails extends AppCompatActivity {
             final Call<List<LocationDetails>> getFavoritesDetails = retrofit
                     .getRetrofit()
                     .create(FavoritesApi.class)
-                    .getFavoritesListDetails(PKCE.getAccessToken(this), locationIds);
+                    .getFavoritesListDetails("Bearer " + PKCE.getAccessToken(this), locationIds);
 
             getFavoritesDetails.enqueue(new Callback<List<LocationDetails>>() {
                 @Override

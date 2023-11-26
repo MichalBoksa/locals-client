@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-<LinearLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/grey2">
-
-    <RelativeLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/hidelayerUserProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="20dp">
-
-        <ImageView
-            android:id="@+id/backArrowUserProfile"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/baseline_arrow_back_24"
-            android:layout_marginLeft="8dp" />
-
+        android:layout_height="match_parent"
+        android:background="@color/grey2"
+        android:orientation="vertical"
+       >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:cardBackgroundColor="@color/green_2"
+                android:layout_height="280dp"
                 android:layout_marginTop="45dp"
+                app:cardBackgroundColor="@color/green_2"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="10dp"
                 app:cardUseCompatPadding="true">
@@ -45,16 +31,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="23dp"
-                    android:orientation="vertical"
+
                     android:gravity="center"
-                    >
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageUserProfile"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/person"
+                        app:civ_border_color="#FFFFFF"
+                        app:civ_border_width="2dp"></de.hdodenhof.circleimageview.CircleImageView>
 
                     <TextView
                         android:id="@+id/usernameUserProfileTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="85dp"
+
                         android:gravity="center"
                         android:text="Username"
                         android:textColor="@color/white"
@@ -75,41 +71,216 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imageUserProfile"
-                android:layout_width="150dp"
-                android:layout_height="140dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:elevation="15dp"
-                android:padding="5dp"
-                app:shapeAppearanceOverlay="@style/Circular"
-                app:srcCompat="@drawable/person"></com.google.android.material.imageview.ShapeableImageView>
+            <ImageView
+                android:id="@+id/backArrowUserProfile"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
+
         </RelativeLayout>
-    </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <include layout="@layout/viewholder_user_email"
-                android:id="@+id/emailUserProfile"
-                app:email="@{@string/email}"/>
-            <include layout="@layout/viewholder_user_phone"
-                android:id="@+id/phoneUserProfile"
-                app:phone="@{@string/phone}"/>
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delete account"
-                android:textColor="@color/reddie"
-                android:textSize="20dp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-</ScrollView>
-</LinearLayout>
-</layout>
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    xmlns:card_view="http://schemas.android.com/tools"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="@color/green_2"
+                    card_view:cardCornerRadius="5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="1dp"
+                                android:gravity="center"
+                                android:layout_alignParentStart="true">
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/email_icon"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="E-mail"
+                                    android:textSize="16sp"
+                                    android:layout_margin="5dp"
+                                    android:textStyle="bold|normal"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="1dp"
+                                android:gravity="center"
+                                android:layout_alignParentEnd="true">
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/update_icon"/>
+                                <TextView
+                                    android:id="@+id/updateEmailUserProfile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Update"
+                                    android:textSize="16sp"
+                                    android:layout_margin="5dp"
+                                    android:textStyle="bold|normal"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <!--            <ImageView-->
+                            <!--                android:layout_width="25dp"-->
+                            <!--                android:layout_height="25dp"-->
+                            <!--                android:padding="2dp"-->
+                            <!--                android:layout_marginStart="10dp"-->
+                            <!--                app:srcCompat="@d"-->
+                            <TextView
+                                android:id="@+id/emailUserProfile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:gravity="center"
+                                android:text="email"
+                                android:textColor="@color/white"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    xmlns:card_view="http://schemas.android.com/tools"
+                    app:cardBackgroundColor="@color/green_2"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    card_view:cardCornerRadius="5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="1dp"
+                                android:gravity="center"
+                                android:layout_alignParentStart="true">
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/phone_icon"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Phone number"
+                                    android:textSize="16sp"
+                                    android:layout_margin="5dp"
+                                    android:textStyle="bold|normal"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="1dp"
+                                android:gravity="center"
+                                android:layout_alignParentEnd="true">
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/update_icon"/>
+                                <TextView
+                                    android:id="@+id/updatePhoneUserProfile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Update"
+                                    android:textSize="16sp"
+                                    android:layout_margin="5dp"
+                                    android:textStyle="bold|normal"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/phoneNumberUserProfile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:gravity="center"
+                                android:text="phone"
+                                android:textColor="@color/white"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Delete account"
+                    android:textColor="@color/reddie"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>

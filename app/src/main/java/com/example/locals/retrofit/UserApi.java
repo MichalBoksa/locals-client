@@ -21,8 +21,13 @@ public interface UserApi {
     Call<User> getUser(@Header("Authorization") String token, @Path("email") String email);
 
     @PUT("/RSUser/updateImage/{email}")
-    Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body byte[] image);
+    Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body String image);
 
+    @PUT("/RSUser/updateEmail/{email}")
+    Call<ResponseBody> saveUserEmail(@Header("Authorization") String token, @Path("email") String email, @Body String newEmail);
+
+    @PUT("/RSUser/updatePhone/{email}")
+    Call<ResponseBody> saveUserPhone(@Header("Authorization") String token, @Path("email") String email, @Body String phone);
 
     //TODO check annotations
     @Headers("Accept: application/json")

@@ -19,6 +19,7 @@ import com.example.locals.adapters.PlaceDetailsImageAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
 import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
+import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.utils.PKCE;
@@ -31,26 +32,27 @@ import retrofit2.Response;
 
 public class PlaceDetails extends AppCompatActivity {
 
-    ImageView backIcon;
-    TextView placeName;
-    TextView placePrice;
-    TextView placeRating;
-    TextView placeDescription;
-    ImageView placeImage;
-    RecyclerView imagesRecyclerView;
-    RecyclerView guidesRecyclerView;
-    PlaceDetailsImageAdapter imageAdapter;
-    GuideListAdapter guideAdapter;
-
+    private ImageView backIcon;
+    private TextView placeName;
+    private TextView placePrice;
+    private TextView placeRating;
+    private TextView placeDescription;
+    private ImageView placeImage;
+    private RecyclerView imagesRecyclerView;
+    private RecyclerView guidesRecyclerView;
+    private PlaceDetailsImageAdapter imageAdapter;
+    private GuideListAdapter guideAdapter;
+    private RetrofitService retrofit;
+    private String cityName;
+    private String placeid;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
-        String placeid = getIntent().getExtras().getString("LOCATION_ID");
-        LocationDetails locationDetails;
-        RetrofitService retrofit = new RetrofitService();
+        placeid = getIntent().getExtras().getString("LOCATION_ID");
+        retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
 
         placeName = findViewById(R.id.placeNamePlaceDetails);
@@ -58,38 +60,9 @@ public class PlaceDetails extends AppCompatActivity {
         placeImage = findViewById(R.id.imagePlaceDetails);
         placeDescription = findViewById(R.id.descriptionPlaceDetails);
         placeRating = findViewById(R.id.ratingPlaceDetails);
-
-
-        final Call<LocationDetails> getPlaceDetails = retrofit
-                                                    .getRetrofit()
-                                                    .create(LocationApi.class)
-                                                    .getLocationDetails(PKCE.getAccessToken(this), placeid);
-
-        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
-            @Override
-            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
-                if(response.body() != null) {
-                    placeName.setText(response.body().getName());
-                    //placePrice.setText(response.body().get);
-                    placeRating.setText(response.body().getRating().toString());
-                    placeDescription.setText(response.body().getDescription());
-                    Glide.with(PlaceDetails.this.placeImage)
-                            .load(response.body().getImagesURLList().get(0))
-                            .into(placeImage);
-                    response.body().getImagesURLList().remove(0);
-                    setImagesRecyclerView(response.body().getImagesURLList());
-                }
-
-            }
-            @Override
-            public void onFailure(Call<LocationDetails> call, Throwable t) {
-                System.out.println(call);
-                Toast.makeText(PlaceDetails.this, "call error",Toast.LENGTH_LONG).show();
-            }
-        });
-
+        setPlaceDetails();
         setOnClickListeners();
-
+        setRecommendedGuides();
     }
 
     public void setOnClickListeners(){
@@ -111,12 +84,65 @@ public class PlaceDetails extends AppCompatActivity {
         imagesRecyclerView.setAdapter(imageAdapter);
     }
 
-    private void setGuidesRecyclerView(List<Guide> guides) {
+    private void setGuideRecyclerView(List<Guide> guides) {
         guidesRecyclerView = findViewById(R.id.guidePlaceDetailsRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false);
         guidesRecyclerView.setLayoutManager(layoutManager);
         guideAdapter = new GuideListAdapter(this,guides);
         guidesRecyclerView.setAdapter(guideAdapter);
+    }
+
+    public void setPlaceDetails() {
+        final Call<LocationDetails> getPlaceDetails = retrofit
+                .getRetrofit()
+                .create(LocationApi.class)
+                .getLocationDetails("Bearer " + PKCE.getAccessToken(this), placeid);
+
+        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
+            @Override
+            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
+                if(response.body() != null) {
+                    placeName.setText(response.body().getName());
+                    cityName = response.body().getAddress_obj().getCity();
+                    //placePrice.setText(response.body().get);
+                    placeRating.setText(response.body().getRating().toString());
+                    placeDescription.setText(response.body().getDescription());
+                    Glide.with(PlaceDetails.this.placeImage)
+                            .load(response.body().getImagesURLList().get(0))
+                            .into(placeImage);
+                    response.body().getImagesURLList().remove(0);
+                    setImagesRecyclerView(response.body().getImagesURLList());
+                }
+
+            }
+            @Override
+            public void onFailure(Call<LocationDetails> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(PlaceDetails.this, "call error",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void setRecommendedGuides() {
+
+        final Call<List<Guide>> getCityGuides = retrofit
+                .getRetrofit()
+                .create(GuideApi.class)
+                .getCityGuides("Bearer " + PKCE.getAccessToken(this),cityName);
+
+        getCityGuides.enqueue(new Callback<List<Guide>>() {
+            @Override
+            public void onResponse(Call<List<Guide>> call, Response<List<Guide>> response) {
+                if(response.body() != null && !response.body().isEmpty()) {
+                    setGuideRecyclerView(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Guide>> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(PlaceDetails.this, "guide call error",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

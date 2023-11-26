@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
    public final static String authorization = Base64.getUrlEncoder().withoutPadding().encodeToString(clientSecret.getBytes(StandardCharsets.UTF_8));
    private SharedPreferences sharedPref;
    private SharedPreferences.Editor editor;
-   private String authToken;
+   private String accessToken;
    private RetrofitService retrofit;
    private Long expiryTime;
    private String code;
@@ -47,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeComponents() {
         Button buttonSignIn = findViewById(R.id.buttonLogin);
-        authToken = PKCE.getAccessToken(this);
+        accessToken = PKCE.getAccessToken(this);
         expiryTime = PKCE.getTokenExpiryTime(this);
 
        // UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
       buttonSignIn.setOnClickListener(view -> {
-          if(authToken == null || authToken.isEmpty() ) {
+          if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
                   Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
-//                  intent.setData(Uri.parse("http://192.168.32.6:8080/oauth2/authorize?" +
-                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.32.6:8080/oauth2/authorize?" +
+//                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
                           "scope=openid&" +
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
           else {
-              if (!authToken.isEmpty() && PKCE.isJWTexpired(this)) {
+              if (!accessToken.isEmpty() && PKCE.isJWTexpired(this)) {
                   String refreshToken = PKCE.getRefreshToken(this);
                   final Call<OAuthToken> refreshTokenCall = retrofit
                       .getRetrofit()

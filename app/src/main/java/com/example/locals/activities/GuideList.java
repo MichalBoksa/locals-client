@@ -85,7 +85,7 @@ public class GuideList extends AppCompatActivity {
         final Call<List<Guide>> getCityGuides = retrofit
                 .getRetrofit()
                 .create(GuideApi.class)
-                .getCityGuides(PKCE.getAccessToken(this),cityName);
+                .getCityGuides("Bearer " + PKCE.getAccessToken(this),cityName);
 
         getCityGuides.enqueue(new Callback<List<Guide>>() {
             @Override

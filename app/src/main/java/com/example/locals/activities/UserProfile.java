@@ -3,18 +3,23 @@ package com.example.locals.activities;
 import static android.view.View.inflate;
 import static java.text.DateFormat.DEFAULT;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +29,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +40,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.locals.R;
 
 import com.example.locals.databinding.ActivityUserProfileBinding;
+import com.example.locals.fragments.AddFavoritesListFragment;
+import com.example.locals.fragments.UpdateEmailFragment;
+import com.example.locals.fragments.UpdatePhoneFragment;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
@@ -46,6 +55,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,35 +63,30 @@ import retrofit2.Response;
 
 public class UserProfile extends AppCompatActivity {
 
-    ImageView backArrow;
-    ImageView userImage;
-    TextView usernameTV;
-    TextView userIdTV;
-    ActivityUserProfileBinding binding;
-    ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
-    int PROFILE_IMAGE_SIZE_WIDTH = 150;
-    int PROFILE_IMAGE_SIZE_HEIGHT = 150;
-    RetrofitService retrofit;
-    ActivityResultLauncher<PickVisualMediaRequest> launcher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
+    private ImageView backArrow;
+    private CircleImageView userImage;
+    private TextView usernameTV;
+    private TextView editEmailTV;
+    private TextView editPhoneTV;
+    private TextView userIdTV;
+    private TextView userEmailTV;
+    private TextView userPhoneTV;
+    private String userPhone;
+    private RetrofitService retrofit;
+    private UpdateEmailFragment emailDialogFragment;
+    private UpdatePhoneFragment phoneDialogFragment;
+    private ActivityResultLauncher<PickVisualMediaRequest> launcher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri uri) {
-            byte[] inputData;
+
             if (uri == null)
                 Toast.makeText(UserProfile.this, "No image Selected", Toast.LENGTH_SHORT).show();
             else {
-                InputStream iStream = null;
-                try {
-                    iStream = getContentResolver().openInputStream(uri);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                     inputData = getBytes(iStream);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+
+                int gfgFlagger = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                UserProfile.this.getContentResolver().takePersistableUriPermission(uri, gfgFlagger);
                 userImage.setImageURI(uri);
-                updateUserImage(inputData);
+                     updateUserImage(uri.toString());
             }
         }
     });
@@ -96,7 +101,10 @@ public class UserProfile extends AppCompatActivity {
         userImage = findViewById(R.id.imageUserProfile);
         usernameTV = findViewById(R.id.usernameUserProfileTV);
         userIdTV = findViewById(R.id.userIdUserProfileTV);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_user_profile);
+        userEmailTV = findViewById(R.id.emailUserProfile);
+        userPhoneTV = findViewById(R.id.phoneNumberUserProfile);
+        editEmailTV = findViewById(R.id.updateEmailUserProfile);
+        editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
         setUserData();
         setOnClickListeners();
     }
@@ -106,25 +114,24 @@ public class UserProfile extends AppCompatActivity {
         final Call<User> getUser = retrofit
                 .getRetrofit()
                 .create(UserApi.class)
-                .getUser(accessCode, PKCE.getJWTUser(accessCode));
+                .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
 
         getUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.body() != null ) {
                     usernameTV.setText(response.body().getName());
-                    binding.emailUserProfile.setEmail(response.body().getEmail());
-                    //binding.emailUserProfile.emailUserProfile.setText();
-                    binding.phoneUserProfile.phoneNumberUserProfile.setText(response.body().getPhoneNumber());
+                    userEmailTV.setText(response.body().getEmail());
+                    userPhone = response.body().getPhoneNumber();
+                    userPhoneTV.setText(userPhone);
                     userIdTV.setText("Id: " + response.body().getId());
                     //TODO add static method
-                    Bitmap bm = BitmapFactory.decodeByteArray(response.body().getImage(), 0, response.body().getImage().length);
-                    DisplayMetrics dm = new DisplayMetrics();
-                    getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                    userImage.setMinimumHeight(dm.heightPixels);
-                    userImage.setMinimumWidth(dm.widthPixels);
-                    userImage.setImageBitmap(bm);
+                    if(response.body().getImageUri() != null && response.body().getImageUri().length() > 0) {
+                        String b = response.body().getImageUri();
+                        b = b.substring(1,b.length()-1);
+                        Uri uri = Uri.parse(b);
+                        userImage.setImageURI(uri);
+                    }
                 }
             }
 
@@ -152,17 +159,34 @@ public class UserProfile extends AppCompatActivity {
                 launcher.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
+
+            }
+        });
+
+        editEmailTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emailDialogFragment = new UpdateEmailFragment();
+                emailDialogFragment.show(getSupportFragmentManager(),"updateEmail");
+            }
+        });
+
+        editPhoneTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                phoneDialogFragment = new UpdatePhoneFragment(userPhone);
+                phoneDialogFragment.show(getSupportFragmentManager(),"updatePhone");
             }
         });
 
     }
 
-    private void updateUserImage(byte[] image) {
+    private void updateUserImage(String image) {
         String accessCode = PKCE.getAccessToken(this);
         final Call<ResponseBody> setUserImage = retrofit
                 .getRetrofit()
                 .create(UserApi.class)
-                .saveUserImage(accessCode, PKCE.getJWTUser(accessCode), image);
+                .saveUserImage("Bearer " + accessCode, PKCE.getJWTUser(accessCode), image);
 
         setUserImage.enqueue(new Callback<ResponseBody>() {
             @Override

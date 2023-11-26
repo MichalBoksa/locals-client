@@ -157,7 +157,7 @@ public class AddGuideBookingFragment extends DialogFragment {
         final Call<Void> addNewList = retrofit
                 .getRetrofit()
                 .create(BookingApi.class)
-                .addBooking(PKCE.getAccessToken(this.getContext()),booking);
+                .addBooking("Bearer " + PKCE.getAccessToken(this.getContext()),booking);
 
         addNewList.enqueue(new Callback<Void>() {
             @Override
