@@ -16,6 +16,7 @@ public class Guide {
     public Guide(int id) {
         this.id = id;
     }
+    public Guide() {}
 
     public int getId() {
         return id;

@@ -273,8 +273,27 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:id="@+id/becomeLocalUserProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="Become a Local"
+                    android:textColor="@color/green_2"
+                    android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/logoutUserProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="Logout"
+                    android:textColor="@color/reddie"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/deleteAccountUserProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

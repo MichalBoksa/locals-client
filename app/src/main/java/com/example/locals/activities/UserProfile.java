@@ -41,6 +41,7 @@ import com.example.locals.R;
 
 import com.example.locals.databinding.ActivityUserProfileBinding;
 import com.example.locals.fragments.AddFavoritesListFragment;
+import com.example.locals.fragments.RegisterGuideFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
 import com.example.locals.models.User;
@@ -71,10 +72,12 @@ public class UserProfile extends AppCompatActivity {
     private TextView userIdTV;
     private TextView userEmailTV;
     private TextView userPhoneTV;
+    private TextView becomeLocalTV;
     private String userPhone;
     private RetrofitService retrofit;
     private UpdateEmailFragment emailDialogFragment;
     private UpdatePhoneFragment phoneDialogFragment;
+    private RegisterGuideFragment registerGuideFragment;
     private ActivityResultLauncher<PickVisualMediaRequest> launcher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri uri) {
@@ -105,6 +108,7 @@ public class UserProfile extends AppCompatActivity {
         userPhoneTV = findViewById(R.id.phoneNumberUserProfile);
         editEmailTV = findViewById(R.id.updateEmailUserProfile);
         editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
+        becomeLocalTV = findViewById(R.id.becomeLocalUserProfile);
         setUserData();
         setOnClickListeners();
     }
@@ -178,6 +182,15 @@ public class UserProfile extends AppCompatActivity {
                 phoneDialogFragment.show(getSupportFragmentManager(),"updatePhone");
             }
         });
+
+        becomeLocalTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerGuideFragment = new RegisterGuideFragment();
+                registerGuideFragment.show(getSupportFragmentManager(),"registerGuide");
+            }
+        });
+
 
     }
 

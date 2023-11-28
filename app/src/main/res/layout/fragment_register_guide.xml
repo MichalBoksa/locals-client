@@ -1,83 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="800dp"
+    android:id="@+id/scrollView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="1dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginEnd="1dp"
     android:background="@color/grey2">
 
-    <CheckBox
-        android:id="@+id/checkBox12"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="Arabic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox9" />
-
-    <CheckBox
-        android:id="@+id/checkBox8"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="French"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox12" />
-
-    <CheckBox
-        android:id="@+id/checkBox9"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="Spanisch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox7" />
-
-    <CheckBox
-        android:id="@+id/checkBox10"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="Chinese"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox11" />
-
-    <CheckBox
-        android:id="@+id/checkBox11"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="Portugese"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox8" />
-
-    <CheckBox
-        android:id="@+id/checkBox13"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:text="Hindi"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox10" />
-
-    <CheckBox
-        android:id="@+id/checkBox14"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="Viewpoints"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox6" />
-
-    <CheckBox
-        android:id="@+id/checkBox7"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="8dp"
-        android:text="English"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
 
     <ImageView
         android:id="@+id/closeBecomeLocal"
@@ -126,10 +63,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="24dp"
         android:text="About you"
         android:textColor="@color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -137,19 +74,18 @@
         android:id="@+id/aboutMeBecomeLocalTV"
         android:layout_width="243dp"
         android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/rounded_rectangle"
         android:hint="Write something about yourself"
-        android:textColorHint="@color/grey2"
         android:inputType="textCapSentences|textMultiLine"
         android:maxLength="2000"
         android:maxLines="5"
         android:padding="4dp"
-        android:textSize="14sp"
         android:scrollHorizontally="false"
         android:textAlignment="textStart"
         android:textColor="@color/black"
+        android:textColorHint="@color/grey2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -162,6 +98,7 @@
         android:text="What do you want to offer "
         android:textColor="@color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aboutMeBecomeLocalTV" />
 
@@ -169,18 +106,18 @@
         android:id="@+id/whatToshowBecomeLocalTV"
         android:layout_width="243dp"
         android:layout_height="100dp"
-        android:layout_marginStart="16dp"
         android:background="@drawable/rounded_rectangle"
         android:hint="Describe what are you going to show in your city!"
-        android:textColorHint="@color/grey2"
         android:inputType="textCapSentences|textMultiLine"
-        android:textSize="14sp"
         android:maxLength="2000"
         android:maxLines="5"
         android:padding="4dp"
         android:scrollHorizontally="false"
         android:textAlignment="textStart"
         android:textColor="@color/black"
+        android:textColorHint="@color/grey2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -190,117 +127,150 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
         android:text="What Languages do you speak"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/whatToshowBecomeLocalTV" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="17dp"
-        android:text="What Attra"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/whatToshowBecomeLocalTV" />
-
-    <TextView
-        android:id="@+id/startDateCreateLocalsBookingFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="72dp"
-        android:gravity="center"
-        android:text="Price"
-        android:textColor="@color/white"
-        android:textSize="14dp"
+    <EditText
+        android:id="@+id/languagesBecomeLocalTV"
+        android:layout_width="208dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_rectangle"
+        android:hint="List off languages that you speak separated by comma"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:maxLines="5"
+        android:padding="4dp"
+        android:scrollHorizontally="false"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey2"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/dateCreateLocalsBookingFragmentTV"
+        android:id="@+id/priceBecomeLocalTV"
         android:layout_width="140dp"
         android:layout_height="35dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="44dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/rectangle_background"
         android:gravity="center"
         android:text="Hour rate for your service"
         android:textColor="@color/grey2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startDateCreateLocalsBookingFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Price"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/languagesBecomeLocalTV" />
 
     <Button
         android:id="@+id/CreateLocalsBookingFragmentBTN"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button"
-        android:text="make a booking"
+        android:text="Proccess"
         android:textColor="@color/green_2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <CheckBox
-        android:id="@+id/checkBox3"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
-        android:text="Nightlife"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
-        android:text="Architecture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox7" />
 
     <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
+        android:layout_marginEnd="8dp"
         android:text="Sports"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
 
     <CheckBox
-        android:id="@+id/checkBox6"
+        android:id="@+id/checkBox1"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
-        android:text="Art"
+        android:layout_marginEnd="8dp"
+        android:text="Architecture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/checkBox3"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
-        android:text="Restaurants"
+        android:layout_marginEnd="8dp"
+        android:text="Nightlife"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
     <CheckBox
         android:id="@+id/checkBox4"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
+        android:layout_marginEnd="8dp"
         android:text="Museums"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
 
+    <CheckBox
+        android:id="@+id/checkBox7"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="60dp"
+        android:text="Viewpoints"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox6" />
+
+    <CheckBox
+        android:id="@+id/checkBox5"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Restaurants"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:text="Activities"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/whatToshowBecomeLocalTV" />
+
+    <CheckBox
+        android:id="@+id/checkBox6"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Art"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
