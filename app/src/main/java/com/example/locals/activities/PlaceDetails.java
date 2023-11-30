@@ -32,6 +32,8 @@ import retrofit2.Response;
 
 public class PlaceDetails extends AppCompatActivity {
 
+    private String REDIRECT_URI ="urltocallback://place_details";
+
     private ImageView backIcon;
     private TextView placeName;
     private TextView placePrice;
@@ -54,6 +56,9 @@ public class PlaceDetails extends AppCompatActivity {
         placeid = getIntent().getExtras().getString("LOCATION_ID");
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
 
         placeName = findViewById(R.id.placeNamePlaceDetails);
         placePrice = findViewById(R.id.pricePlaceDetails);

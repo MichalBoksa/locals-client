@@ -1,5 +1,7 @@
 package com.example.locals.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -19,10 +21,12 @@ import android.widget.Toast;
 import com.example.locals.R;
 import com.example.locals.models.Favorites;
 import com.example.locals.models.Guide;
+import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.utils.PKCE;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,9 @@ public class RegisterGuideFragment extends DialogFragment {
     EditText whatToOffer;
     EditText languages;
     EditText price;
+    EditText city;
+    SharedPreferences sharedPref;
+
 
 
 
@@ -68,6 +75,7 @@ public class RegisterGuideFragment extends DialogFragment {
         aboutMe = view.findViewById(R.id.aboutMeBecomeLocalTV);whatToOffer = view.findViewById(R.id.whatToshowBecomeLocalTV);
         languages = view.findViewById(R.id.languagesBecomeLocalTV);
         price = view.findViewById(R.id.priceBecomeLocalTV);
+        city = view.findViewById(R.id.cityBecomeLocalTV);
         saveGuide = view.findViewById(R.id.CreateLocalsBookingFragmentBTN);
         activities = new ArrayList<>();
         setOnClickListeners();
@@ -133,12 +141,18 @@ public class RegisterGuideFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Guide guide = new Guide();
+                Gson gson = new Gson();
+               sharedPref = RegisterGuideFragment.this.getContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                User user = gson.fromJson(sharedPref.getString("USER",null), User.class);
+                guide.setName(user.getName());
+                guide.setPhoneNumber(user.getPhoneNumber());
                 guide.setActivities(String.join(",",activities));
                 guide.setAboutMe(aboutMe.getText().toString());
                 guide.setWhatToOffer(whatToOffer.getText().toString());
                 guide.setLanguages(languages.getText().toString());
-                guide.setPrice(Integer.getInteger(price.getText().toString()));
-
+                guide.setPrice(Integer.parseInt(price.getText().toString()));
+                guide.setImageURL(user.getImageUri());
+                guide.setCity(city.getText().toString());
                 RScall(guide);
             }
         });
@@ -153,6 +167,8 @@ public class RegisterGuideFragment extends DialogFragment {
         addNewList.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(RegisterGuideFragment.this.getActivity(), "You've become a local!",Toast.LENGTH_LONG).show();
+                dismiss();
             }
 
             @Override

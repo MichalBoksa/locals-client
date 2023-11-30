@@ -16,6 +16,7 @@ import com.example.locals.R;
 import com.example.locals.activities.FavoritesListDetails;
 import com.example.locals.activities.PlacesList;
 import com.example.locals.models.Favorites;
+import com.example.locals.utils.Utils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -54,10 +55,10 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
         }
         holder.listNameTV.setText(favoritesList.get(position).getName());
         buffer.append(
-               fromDateToLocalDate(favoritesList.get(position).getStartDate()))
+               Utils.fromDateToLocalDate(favoritesList.get(position).getStartDate()))
                .append(" - ")
                .append(
-                fromDateToLocalDate(favoritesList.get(position).getEndDate()));
+                Utils.fromDateToLocalDate(favoritesList.get(position).getEndDate()));
 
         holder.dateTV.setText(buffer.toString());
 
@@ -96,12 +97,4 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
             ifListEmptyFavoritesListTV = itemView.findViewById(R.id.ifListEmptyFavoritesListTV);
         }
     }
-
-    public LocalDate fromDateToLocalDate(Date date) {
-        return date.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-    }
-
-
 }

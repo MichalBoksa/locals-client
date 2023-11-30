@@ -31,6 +31,7 @@ import retrofit2.Response;
 
 public class PlacesList extends AppCompatActivity {
 
+    private String REDIRECT_URI ="urltocallback://places_list";
     ImageView backArrow;
     ImageView searchTripIcon;
     RecyclerView recyclerView;

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class BulletListAdapter extends RecyclerView.Adapter<BulletListAdapter.ViewHolder> {
 
-    List<String> valueList;
-    Context context;
+    private List<String> valueList;
+    private Context context;
 
     public BulletListAdapter(Context context, List<String> valueList) {
         this.context = context;

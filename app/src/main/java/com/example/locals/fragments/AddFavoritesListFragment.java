@@ -155,7 +155,6 @@ public class AddFavoritesListFragment extends DialogFragment {
         addNewList.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println(call);
             }
 
             @Override

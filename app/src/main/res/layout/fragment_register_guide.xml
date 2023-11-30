@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="44dp"
         android:text="What Languages do you speak"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -136,11 +136,39 @@
         app:layout_constraintTop_toBottomOf="@+id/whatToshowBecomeLocalTV" />
 
     <EditText
+        android:id="@+id/priceBecomeLocalTV"
+        android:layout_width="140dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle_background"
+        android:gravity="center"
+        android:hint="Hour rate for your service"
+        android:textColor="@color/grey2"
+        android:textColorHint="@color/grey2"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Price"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/languagesBecomeLocalTV" />
+
+    <EditText
         android:id="@+id/languagesBecomeLocalTV"
         android:layout_width="208dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rounded_rectangle"
         android:hint="List off languages that you speak separated by comma"
         android:inputType="textCapSentences|textMultiLine"
@@ -155,32 +183,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <TextView
-        android:id="@+id/priceBecomeLocalTV"
-        android:layout_width="140dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rectangle_background"
-        android:gravity="center"
-        android:text="Hour rate for your service"
-        android:textColor="@color/grey2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="Price"
-        android:textColor="@color/white"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/languagesBecomeLocalTV" />
-
     <Button
         android:id="@+id/CreateLocalsBookingFragmentBTN"
         android:layout_width="120dp"
@@ -192,6 +194,34 @@
         android:textColor="@color/green_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox7" />
+
+
+    <EditText
+        android:id="@+id/cityBecomeLocalTV"
+        android:layout_width="140dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="44dp"
+        android:background="@drawable/rectangle_background"
+        android:gravity="center"
+        android:hint="Your city"
+        android:textColor="@color/grey2"
+        android:textColorHint="@color/grey2"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="City"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceBecomeLocalTV" />
 
     <CheckBox
         android:id="@+id/checkBox2"

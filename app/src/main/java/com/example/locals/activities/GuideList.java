@@ -28,6 +28,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class GuideList extends AppCompatActivity {
+    private String REDIRECT_URI ="urltocallback://guide_list";
 
     ImageView backArrow;
     RecyclerView recyclerView;
@@ -40,6 +41,9 @@ public class GuideList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide_list);
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
         searchTab = findViewById(R.id.searchTabLocalsList);
         searchLocalsIcon = findViewById(R.id.searchLocalsIconGuideList);
         backArrow = findViewById(R.id.backArrowGuideList);

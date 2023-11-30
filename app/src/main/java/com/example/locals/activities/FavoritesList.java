@@ -16,11 +16,13 @@ import com.example.locals.R;
 import com.example.locals.adapters.FavoritesListAdapter;
 import com.example.locals.fragments.AddFavoritesListFragment;
 import com.example.locals.models.Favorites;
+import com.example.locals.utils.PKCE;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesList extends AppCompatActivity {
+    private String REDIRECT_URI ="urltocallback://fav_list";
 
     RecyclerView favoritesListRV;
     ImageView addNewList;
@@ -34,6 +36,9 @@ public class FavoritesList extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites_list);
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
         backArrow = findViewById(R.id.backArrowFavoritesList);
         addNewList = findViewById(R.id.addNewFavoritesList);
         Bundle bundle = getIntent().getExtras();

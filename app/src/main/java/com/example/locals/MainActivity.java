@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
          retrofit = new RetrofitService();
         retrofit.initializeRetrofitAuth();
+        sharedPref = MainActivity.this.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
         initializeComponents();
     }
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
                   Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
-                  intent.setData(Uri.parse("http://192.168.32.6:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.32.5:8080/oauth2/authorize?" +
 //                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
               }
 
               Intent intent = new Intent(MainActivity.this, Home.class);
-              startActivity(intent);}
+              startActivity(intent);
+          }
     }
                 );
     }

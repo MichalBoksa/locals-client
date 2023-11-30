@@ -12,6 +12,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -47,6 +48,8 @@ import com.example.locals.retrofit.LocationApi;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
@@ -60,6 +63,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Home extends AppCompatActivity {
+    private String REDIRECT_URI ="urltocallback://home";
 
    private RecyclerView guideRecyclerView;
    private RecyclerView placeRecyclerView;
@@ -92,6 +96,9 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         setUser();
@@ -284,6 +291,11 @@ public class Home extends AppCompatActivity {
                         Uri uri = Uri.parse(b);
                         userImage.setImageURI(uri);
                     }
+                    SharedPreferences sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                    GsonBuilder gson = new GsonBuilder();
+                    User user = response.body();
+                    sharedPref.edit().putString("USER",gson.create().toJson(user)).apply();
+
                 }
             }
 

@@ -31,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GuideDetails extends AppCompatActivity {
+    private String REDIRECT_URI ="urltocallback://guide_details";
 
     ImageView guideImage;
     ImageView backArrow;
@@ -55,7 +56,9 @@ public class GuideDetails extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide_details);
-
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
         RetrofitService retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         guideId = getIntent().getExtras().getInt("GUIDE_ID");

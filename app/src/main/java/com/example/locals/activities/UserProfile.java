@@ -37,6 +37,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.locals.MainActivity;
 import com.example.locals.R;
 
 import com.example.locals.databinding.ActivityUserProfileBinding;
@@ -64,6 +65,7 @@ import retrofit2.Response;
 
 public class UserProfile extends AppCompatActivity {
 
+    private String REDIRECT_URI ="urltocallback://user_profile";
     private ImageView backArrow;
     private CircleImageView userImage;
     private TextView usernameTV;
@@ -73,6 +75,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView userEmailTV;
     private TextView userPhoneTV;
     private TextView becomeLocalTV;
+    private TextView logoutTV;
     private String userPhone;
     private RetrofitService retrofit;
     private UpdateEmailFragment emailDialogFragment;
@@ -100,6 +103,9 @@ public class UserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        if(PKCE.isJWTexpired(this)) {
+            PKCE.refreshToken(this, REDIRECT_URI);
+        }
         backArrow = findViewById(R.id.backArrowUserProfile);
         userImage = findViewById(R.id.imageUserProfile);
         usernameTV = findViewById(R.id.usernameUserProfileTV);
@@ -109,6 +115,7 @@ public class UserProfile extends AppCompatActivity {
         editEmailTV = findViewById(R.id.updateEmailUserProfile);
         editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
         becomeLocalTV = findViewById(R.id.becomeLocalUserProfile);
+        logoutTV = findViewById(R.id.logoutUserProfile);
         setUserData();
         setOnClickListeners();
     }
@@ -191,6 +198,14 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
+        logoutTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PKCE.logoutTokens(UserProfile.this);
+                Intent intent = new Intent(UserProfile.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
