@@ -29,6 +29,9 @@ public interface UserApi {
     @PUT("/RSUser/updatePhone/{email}")
     Call<ResponseBody> saveUserPhone(@Header("Authorization") String token, @Path("email") String email, @Body String phone);
 
+    @PUT("/updateToGuide/{email}")
+    Call<Void> updateToGuide(@Header("Authorization") String token, @Path("email") String email);
+
     //TODO check annotations
     @Headers("Accept: application/json")
     @FormUrlEncoded

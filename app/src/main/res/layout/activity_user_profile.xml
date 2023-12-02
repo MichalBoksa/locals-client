@@ -278,6 +278,8 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:orientation="vertical"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
                     android:background="@color/green_2">
 
 
@@ -291,10 +293,22 @@
                                 android:textColor="@color/white"
                                 />
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="16dp">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/bookingRVUserProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:paddingStart="35dp"
+                        android:paddingEnd="35dp"/>
+
+                    </androidx.core.widget.NestedScrollView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -330,7 +344,8 @@
                     android:layout_gravity="center"
                     android:text="Delete account"
                     android:textColor="@color/reddie"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:layout_marginBottom="16dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

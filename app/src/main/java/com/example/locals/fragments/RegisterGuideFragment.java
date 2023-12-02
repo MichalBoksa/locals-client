@@ -25,6 +25,7 @@ import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.RetrofitService;
+import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
 import com.google.gson.Gson;
 
@@ -38,6 +39,7 @@ import retrofit2.Response;
 public class RegisterGuideFragment extends DialogFragment {
 
     private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private List<String> activities;
     CheckBox checkBox1;
     CheckBox checkBox2;
@@ -54,6 +56,8 @@ public class RegisterGuideFragment extends DialogFragment {
     EditText price;
     EditText city;
     SharedPreferences sharedPref;
+    Gson gson;
+    User user;
 
 
 
@@ -64,6 +68,8 @@ public class RegisterGuideFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_register_guide,container,false);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         checkBox1 = view.findViewById(R.id.checkBox1);
         checkBox2 = view.findViewById(R.id.checkBox2);
         checkBox3 = view.findViewById(R.id.checkBox3);
@@ -77,6 +83,9 @@ public class RegisterGuideFragment extends DialogFragment {
         price = view.findViewById(R.id.priceBecomeLocalTV);
         city = view.findViewById(R.id.cityBecomeLocalTV);
         saveGuide = view.findViewById(R.id.CreateLocalsBookingFragmentBTN);
+        gson = new Gson();
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
+        sharedPref = RegisterGuideFragment.this.getContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         activities = new ArrayList<>();
         setOnClickListeners();
         return view;
@@ -141,8 +150,7 @@ public class RegisterGuideFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Guide guide = new Guide();
-                Gson gson = new Gson();
-               sharedPref = RegisterGuideFragment.this.getContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+
                 User user = gson.fromJson(sharedPref.getString("USER",null), User.class);
                 guide.setName(user.getName());
                 guide.setPhoneNumber(user.getPhoneNumber());
@@ -163,6 +171,27 @@ public class RegisterGuideFragment extends DialogFragment {
                 .getRetrofit()
                 .create(GuideApi.class)
                 .createGuide("Bearer " + PKCE.getAccessToken(this.getContext()), guide);
+
+        addNewList.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                AScall();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(RegisterGuideFragment.this.getActivity(), "call error",Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private void AScall() {
+        final Call<Void> addNewList = retrofitAuth
+                .getRetrofit()
+                .create(UserApi.class)
+                .updateToGuide("Bearer " + PKCE.getAccessToken(this.getContext()),user.getEmail());
 
         addNewList.enqueue(new Callback<Void>() {
             @Override

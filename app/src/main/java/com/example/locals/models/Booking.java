@@ -8,6 +8,7 @@ public class Booking {
     private String message;
     private Guide guide;
     private User user;
+    private boolean isAccepted;
 
     public int getId() {
         return id;
@@ -47,5 +48,13 @@ public class Booking {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
 }

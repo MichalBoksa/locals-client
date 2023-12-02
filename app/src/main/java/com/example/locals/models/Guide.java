@@ -4,7 +4,8 @@ package com.example.locals.models;
 public class Guide {
    private int id;
    private String name;
-    private String city;
+   private String city;
+   private String email;
    private String languages;
    private Integer price;
    private String phoneNumber;
@@ -97,5 +98,13 @@ public class Guide {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -6,6 +6,7 @@ import static java.text.DateFormat.DEFAULT;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
@@ -31,6 +32,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
@@ -40,22 +43,31 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.locals.MainActivity;
 import com.example.locals.R;
 
+import com.example.locals.adapters.BookingListAdapter;
+import com.example.locals.adapters.GuideListAdapter;
 import com.example.locals.databinding.ActivityUserProfileBinding;
 import com.example.locals.fragments.AddFavoritesListFragment;
 import com.example.locals.fragments.RegisterGuideFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
+import com.example.locals.models.Booking;
+import com.example.locals.models.Guide;
 import com.example.locals.models.User;
+import com.example.locals.retrofit.BookingApi;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -81,6 +93,11 @@ public class UserProfile extends AppCompatActivity {
     private UpdateEmailFragment emailDialogFragment;
     private UpdatePhoneFragment phoneDialogFragment;
     private RegisterGuideFragment registerGuideFragment;
+    private RecyclerView bookingRecyclerView;
+    private BookingListAdapter bookingAdapter;
+    private User user;
+    private SharedPreferences sharedPref;
+    private  Gson gson;
     private ActivityResultLauncher<PickVisualMediaRequest> launcher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri uri) {
@@ -116,11 +133,17 @@ public class UserProfile extends AppCompatActivity {
         editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
         becomeLocalTV = findViewById(R.id.becomeLocalUserProfile);
         logoutTV = findViewById(R.id.logoutUserProfile);
+        gson = new Gson();
+        sharedPref = UserProfile.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
+
         setUserData();
+        setBookings();
         setOnClickListeners();
     }
 
     private void setUserData() {
+        //TODO change to sharedprefs
         String accessCode = PKCE.getAccessToken(this);
         final Call<User> getUser = retrofit
                 .getRetrofit()
@@ -226,6 +249,43 @@ public class UserProfile extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 System.out.println(call);
                 Toast.makeText(UserProfile.this, "update image call error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setBookingsRecyclerView(List<Booking> bookingList) {
+        bookingRecyclerView = findViewById(R.id.bookingRVUserProfile);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
+        bookingRecyclerView.setLayoutManager(layoutManager);
+        bookingAdapter = new BookingListAdapter(this, bookingList,user);
+        bookingRecyclerView.setAdapter(bookingAdapter);
+    }
+
+    private void setBookings() {
+        String accessCode = PKCE.getAccessToken(this);
+        final Call<List<Booking>> getBookings = retrofit
+                .getRetrofit()
+                .create(BookingApi.class)
+                .getBookings("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+
+        getBookings.enqueue(new Callback<List<Booking>>() {
+            @Override
+            public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
+                if(response.body() != null ) {
+                    List<Booking> test = new ArrayList<>();
+                    test = response.body()
+                            .stream().filter(b -> !b.isAccepted())
+                            .collect(Collectors.toList());
+                    setBookingsRecyclerView(response.body()
+                                    .stream().filter(b -> !b.isAccepted())
+                                    .collect(Collectors.toList()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Booking>> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(UserProfile.this, "Bookings call error",Toast.LENGTH_LONG).show();
             }
         });
     }
