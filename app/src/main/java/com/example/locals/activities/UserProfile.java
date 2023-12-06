@@ -115,6 +115,12 @@ public class UserProfile extends AppCompatActivity {
     });
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);

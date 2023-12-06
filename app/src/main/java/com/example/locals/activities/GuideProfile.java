@@ -116,6 +116,12 @@ public class GuideProfile extends AppCompatActivity {
     });
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
@@ -293,27 +299,27 @@ public class GuideProfile extends AppCompatActivity {
     }
 
     private void setGuideData() {
-        //TODO change to sharedprefs
-        String accessCode = PKCE.getAccessToken(this);
-        final Call<Guide> getGuide = retrofit
-                .getRetrofit()
-                .create(GuideApi.class)
-                .getGuideDetails("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
-
-        getUser.enqueue(new Callback<Guide>() {
-            @Override
-            public void onResponse(Call<Guide> call, Response<Guide> response) {
-                if(response.body() != null ) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                System.out.println(call);
-                Toast.makeText(GuideProfile.this, "userData call error",Toast.LENGTH_LONG).show();
-            }
-        });
+//        //TODO change to sharedprefs
+//        String accessCode = PKCE.getAccessToken(this);
+//        final Call<Guide> getGuide = retrofit
+//                .getRetrofit()
+//                .create(GuideApi.class)
+//                .getGuideDetails("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+//
+//        getUser.enqueue(new Callback<Guide>() {
+//            @Override
+//            public void onResponse(Call<Guide> call, Response<Guide> response) {
+//                if(response.body() != null ) {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//                System.out.println(call);
+//                Toast.makeText(GuideProfile.this, "userData call error",Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
 }

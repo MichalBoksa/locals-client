@@ -31,6 +31,12 @@ public class FavoritesList extends AppCompatActivity {
     ArrayList<Favorites> favoritesList;
     AddFavoritesListFragment dialogFragment;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

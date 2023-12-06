@@ -41,6 +41,11 @@ public class PlacesList extends AppCompatActivity {
     RetrofitService retrofit;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places_list);

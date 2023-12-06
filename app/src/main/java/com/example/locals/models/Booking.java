@@ -6,8 +6,8 @@ public class Booking {
     private int id;
     private Date date;
     private String message;
-    private Guide guide;
-    private User user;
+    private int guideId;
+    private int userId;
     private boolean isAccepted;
 
     public int getId() {
@@ -34,20 +34,20 @@ public class Booking {
         this.message = message;
     }
 
-    public Guide getGuide() {
-        return guide;
+    public int getGuideId() {
+        return guideId;
     }
 
-    public void setGuide(Guide guide) {
-        this.guide = guide;
+    public void setGuideId(int guideId) {
+        this.guideId = guideId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public boolean isAccepted() {

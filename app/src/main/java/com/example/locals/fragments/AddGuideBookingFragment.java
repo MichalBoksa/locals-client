@@ -144,8 +144,8 @@ public class AddGuideBookingFragment extends DialogFragment {
                 User user = new User();
                 user.setEmail("ASD@op.pl");
                 user.setId(4);
-                booking.setGuide(new Guide(guide_id));
-                booking.setUser(user);
+                booking.setGuideId(guide_id); //setGuide(new Guide(guide_id));
+                booking.setUserId(user.getId());// setUser(user);
                 booking.setMessage(messageET.getText().toString());
                 date.setTime(TimeUnit.MINUTES.toMillis(hour * 60 + minute));
                 booking.setDate(calendar.getTime());

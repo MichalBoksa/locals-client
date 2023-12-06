@@ -50,6 +50,11 @@ public class GuideDetails extends AppCompatActivity {
     AddGuideBookingFragment dialogFragment;
     int guideId;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
 
 
     @Override

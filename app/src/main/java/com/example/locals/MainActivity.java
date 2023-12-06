@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         retrofit = new RetrofitService();
+        retrofit = new RetrofitService();
         retrofit.initializeRetrofitAuth();
         sharedPref = MainActivity.this.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -52,13 +52,12 @@ public class MainActivity extends AppCompatActivity {
         accessToken = PKCE.getAccessToken(this);
         expiryTime = PKCE.getTokenExpiryTime(this);
 
-       // UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
       buttonSignIn.setOnClickListener(view -> {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
                   Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
-                  intent.setData(Uri.parse("http://192.168.32.5:8080/oauth2/authorize?" +
-//                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+//                  intent.setData(Uri.parse("http://192.168.32.5:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
                           "scope=openid&" +
@@ -112,34 +111,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Uri data = getIntent().getData();
-
-        if(data != null && !TextUtils.isEmpty(data.getScheme())) {
-             code = data.getQueryParameter("code");
-
-            final Call<OAuthToken> accessTokenCall = retrofit
-                    .getRetrofit()
-                    .create(OAuth2Api.class)
-                    .getJWT("Basic " + authorization,"client",REDIRECT_URI,"authorization_code",code,PKCE.codeVerifier);
-
-            accessTokenCall.enqueue(new Callback<OAuthToken>() {
-                @Override
-                public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-                    if(response.body() != null) {
-                      saveTokenData(response);
-                        Intent intent = new Intent(MainActivity.this, Home.class);
-                        startActivity(intent);
-                    }
-                }
-                @Override
-                public void onFailure(Call<OAuthToken> call, Throwable t) {
-                    System.out.println(call);
-                    Toast.makeText(MainActivity.this, "Token error",Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
-
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
     }
 
 

@@ -37,6 +37,12 @@ public class GuideList extends AppCompatActivity {
     ImageView searchLocalsIcon;
     List<Guide> guideList = new ArrayList<>();
     RetrofitService retrofit;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

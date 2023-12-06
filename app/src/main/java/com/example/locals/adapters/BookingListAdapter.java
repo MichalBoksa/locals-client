@@ -44,8 +44,6 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
         this.context = context;
         this.bookings = valueList;
         this.user = user;
-        retrofit = new RetrofitService();
-        retrofit.initializeRetrofit();
     }
 
     @NonNull
@@ -59,18 +57,18 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
     @Override
     public void onBindViewHolder(@NonNull BookingListAdapter.ViewHolder holder, int position) {
         StringBuffer buffer = new StringBuffer();
-        RSGuideCall(getGuideId(getGuideId(position)));
+        RSGuideCall(bookings.get(position).getGuideId(),holder,position);
         buffer.append(
                 Utils.fromDateToLocalDate(bookings.get(position).getDate()));
         holder.dateTV.setText(buffer.toString());
-        holder.nameTV.setText(guide.getName());
+        holder.nameTV.setText("John");
         holder.messageTV.setText(bookings.get(position).getMessage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, GuideDetails.class);
-                intent.putExtra("GUIDE_ID",getGuideId(holder.getAdapterPosition()));
+                intent.putExtra("GUIDE_ID", bookings.get(holder.getAdapterPosition()).getGuideId());
                 context.startActivity(intent);
             }
         });
@@ -95,8 +93,10 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
         }
     }
 
-    public void RSGuideCall(int id) {
+    public void RSGuideCall(int id,@NonNull BookingListAdapter.ViewHolder holder, int position) {
         String accessCode = PKCE.getAccessToken(context);
+        retrofit = new RetrofitService();
+        retrofit.initializeRetrofit();
 
        final Call<Guide> getGuide = retrofit
                 .getRetrofit()
@@ -107,7 +107,7 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
             @Override
             public void onResponse(Call<Guide> call, Response<Guide> response) {
                 if (response.body() != null ){
-                    guide = response.body();
+                    holder.nameTV.setText(response.body().getName());
                 }
             }
 
@@ -116,10 +116,7 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
                 System.out.println(call);
                 Toast.makeText(context, "Guide booking list call error",Toast.LENGTH_LONG).show();            }
         });
-    }
 
-    private int getGuideId(int position) {
-        return bookings.get(position).getGuide().getId();
     }
 
 }

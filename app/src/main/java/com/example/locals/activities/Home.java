@@ -79,18 +79,20 @@ public class Home extends AppCompatActivity {
     private ImageView userProfileImageIcon;
     private CircleImageView userImage;
     private ImageView searchTripIcon;
-
     private EditText searchTab;
     private final String cityName = "Paris";
     private TextView usernameTV;
+    private User user;
+    private Gson gson;
+    private SharedPreferences sharedPref;
 
-    RetrofitService retrofit;
-    Integer a = 4;
+   private RetrofitService retrofit;
 
-    private Intent requestFileIntent;
-    private ParcelFileDescriptor inputPFD;
-    private StorageVolume storageVolume;
-    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,9 @@ public class Home extends AppCompatActivity {
         }
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        gson = new Gson();
+        sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
         setUser();
         setRecommendedPlaces();
         setUserFavorites();
@@ -251,7 +256,7 @@ public class Home extends AppCompatActivity {
                 .getRetrofit()
                 .create(FavoritesApi.class)
                 //TODO change a
-                .getUserFavorites("Bearer " + PKCE.getAccessToken(this), a);
+                .getUserFavorites("Bearer " + PKCE.getAccessToken(this), user.getId());
 
         getUserFavorites.enqueue(new Callback<ArrayList<Favorites>>() {
             @Override
@@ -302,18 +307,9 @@ public class Home extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 System.out.println(call);
+                PKCE.getAuthorizationToken(REDIRECT_URI,Home.this);
                 Toast.makeText(Home.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });
     }
-
-    public void openImage(View view) {
-        Uri uri = Uri.parse(storageVolume.getDirectory() + "/Download/download.jpeg");
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(uri,"image/jpeg");
-                startActivity(intent);
-    }
-
-
 }

@@ -20,7 +20,11 @@ public interface GuideApi {
 
     @Headers("Accept: application/json")
     @GET("/guide/guideDetails/{id}")
-    Call<Guide> getGuideDetails(@Header("Authorization") String token,@Path("id") int guideId);
+    Call<Guide> getGuideDetails(@Header("Authorization") String token, @Path("id") int guideId);
+
+    @Headers("Accept: application/json")
+    @GET("/guide/guideDetailsEmail/{email}")
+    Call<Guide> getGuideDetailsByEmail(@Header("Authorization") String token, @Path("email") String email);
 
     @Headers("Accept: application/json")
     @POST("/guide/addNew")

@@ -48,6 +48,12 @@ public class PlaceDetails extends AppCompatActivity {
     private String cityName;
     private String placeid;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

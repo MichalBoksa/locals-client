@@ -1,13 +1,12 @@
 package com.example.locals.models;
 
-import java.util.Set;
-
 public class User {
     private int id;
     private String email;
     private String name;
     private String phoneNumber;
     private String imageUri;
+    private boolean isGuide;
 
 
     public int getId() {
@@ -48,5 +47,13 @@ public class User {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public boolean isGuide() {
+        return isGuide;
+    }
+
+    public void setGuide(boolean guide) {
+        isGuide = guide;
     }
 }
