@@ -8,7 +8,7 @@ public class Booking {
     private String message;
     private int guideId;
     private int userId;
-    private boolean isAccepted;
+    private Boolean isAccepted;
 
     public int getId() {
         return id;

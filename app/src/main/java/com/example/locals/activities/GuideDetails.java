@@ -18,6 +18,7 @@ import com.example.locals.R;
 import com.example.locals.adapters.BulletListAdapter;
 import com.example.locals.fragments.AddFavoritesListFragment;
 import com.example.locals.fragments.AddGuideBookingFragment;
+import com.example.locals.fragments.GuideContactFragment;
 import com.example.locals.models.Guide;
 import com.example.locals.retrofit.GuideApi;
 import com.example.locals.retrofit.RetrofitService;
@@ -48,7 +49,9 @@ public class GuideDetails extends AppCompatActivity {
     Button bookLocalBtn;
     Button contactBtn;
     AddGuideBookingFragment dialogFragment;
+    GuideContactFragment contactFragment;
     int guideId;
+    String phoneGuide;
 
     @Override
     protected void onResume() {
@@ -77,6 +80,7 @@ public class GuideDetails extends AppCompatActivity {
         guideAboutMeTV = findViewById(R.id.aboutMeGuideDetailsTV);
         guideWhatToOfferTV = findViewById(R.id.GuidingDescGuideDetailsTV);
         bookLocalBtn = findViewById(R.id.bookGuideDetailsBtn);
+        contactBtn = findViewById(R.id.contactGuideDetailsBtn);
         setOnClickListeners();
 
         final Call<Guide> getGuideDetails = retrofit
@@ -96,6 +100,7 @@ public class GuideDetails extends AppCompatActivity {
                     guidePriceTV.setText(response.body().getPrice().toString());
                     guideAboutMeTV.setText(response.body().getAboutMe());
                     guideWhatToOfferTV.setText(response.body().getWhatToOffer());
+                    phoneGuide = response.body().getPhoneNumber();
                     setActivitiesRecyclerView(Arrays.asList(response.body().getActivities().split(",")));
                     setLanguagesRecyclerView(Arrays.asList(response.body().getLanguages().split(",")));
                 }
@@ -128,6 +133,17 @@ public class GuideDetails extends AppCompatActivity {
                 args.putInt("GUIDE_ID", guideId);
                 dialogFragment.setArguments(args);
                 dialogFragment.show(getSupportFragmentManager(),"addGuideBooking");
+            }
+        });
+
+        contactBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactFragment = new GuideContactFragment();
+                Bundle args = new Bundle();
+                args.putString("GUIDE_PHONE", phoneGuide);
+                contactFragment.setArguments(args);
+                contactFragment.show(getSupportFragmentManager(),"contactGuide");
             }
         });
     }
