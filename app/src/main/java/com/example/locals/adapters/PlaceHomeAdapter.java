@@ -80,7 +80,7 @@ public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.Citi
         }
     }
 
-    private String getLocationId(int position) {
+    private int getLocationId(int position) {
         return placeList.get(position).getLocation_id();
     }
 }

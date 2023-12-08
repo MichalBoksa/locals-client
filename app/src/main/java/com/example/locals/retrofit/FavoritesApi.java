@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface FavoritesApi {
@@ -22,9 +23,13 @@ public interface FavoritesApi {
 
     @Headers("Accept: application/json")
     @GET("/attractions/favoritesLocations/{locationIds}")
-    Call<List<LocationDetails>> getFavoritesListDetails(@Header("Authorization") String token,@Path("locationIds") String locationIds);
+    Call<List<LocationDetails>> getFavoritesListDetails(@Header("Authorization") String token, @Path("locationIds") String locationIds);
 
     @Headers("Accept: application/json")
     @POST("/favorites/addNewList")
-    Call<Void> addList(@Header("Authorization") String token,@Body Favorites favorites);
+    Call<Void> addList(@Header("Authorization") String token, @Body Favorites favorites);
+
+    @Headers("Accept: application/json")
+    @PUT("/favorites/addListElement")
+    Call<Void> addListElement(@Header("Authorization") String token, @Body List<Integer> ids, @Body String placeId );
 }

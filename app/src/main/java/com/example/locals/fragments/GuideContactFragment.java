@@ -26,15 +26,12 @@ public class GuideContactFragment extends DialogFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_guide_contact, container, false);
-        Intent intent = new Intent(getActivity().getApplicationContext(), GuideDetails.class);
         Bundle bundle = getArguments();
         String phoneBundle = bundle.getString("GUIDE_PHONE","");
 
         cancelBtn = view.findViewById(R.id.closeContactFragment);
         phone = view.findViewById(R.id.guideContactFragmentTV);
-//        String phoneBundle = intent.getStringExtra("GUIDE_PHONE");//getExtras().getString("GUIDE_PHONE");
         phone.setText(phoneBundle);
-
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override

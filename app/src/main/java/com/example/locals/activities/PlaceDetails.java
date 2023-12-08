@@ -17,6 +17,7 @@ import com.example.locals.R;
 import com.example.locals.adapters.GuideListAdapter;
 import com.example.locals.adapters.PlaceDetailsImageAdapter;
 import com.example.locals.adapters.PlaceHomeAdapter;
+import com.example.locals.fragments.AddElementToFavoriteListFragment;
 import com.example.locals.models.Guide;
 import com.example.locals.models.LocationDetails;
 import com.example.locals.retrofit.GuideApi;
@@ -33,8 +34,8 @@ import retrofit2.Response;
 public class PlaceDetails extends AppCompatActivity {
 
     private String REDIRECT_URI ="urltocallback://place_details";
-
     private ImageView backIcon;
+    private ImageView heartIcon;
     private TextView placeName;
     private TextView placePrice;
     private TextView placeRating;
@@ -47,6 +48,8 @@ public class PlaceDetails extends AppCompatActivity {
     private RetrofitService retrofit;
     private String cityName;
     private String placeid;
+    private AddElementToFavoriteListFragment dialogAddElement;
+
 
     @Override
     protected void onResume() {
@@ -78,11 +81,22 @@ public class PlaceDetails extends AppCompatActivity {
 
     public void setOnClickListeners(){
         backIcon = findViewById(R.id.backIconPlaceDetails);
+        heartIcon = findViewById(R.id.heartPlaceDetailsImage);
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PlaceDetails.this, Home.class);
                 startActivity(intent);
+            }
+        });
+
+        heartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("PLACE_ID", placeid);
+                dialogAddElement.setArguments(args);
+                dialogAddElement.show(getSupportFragmentManager(),"addFavListElement");
             }
         });
     }

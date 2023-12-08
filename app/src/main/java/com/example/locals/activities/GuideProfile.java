@@ -1,26 +1,14 @@
 package com.example.locals.activities;
 
-import static android.view.View.inflate;
-import static java.text.DateFormat.DEFAULT;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,23 +18,13 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.locals.MainActivity;
 import com.example.locals.R;
 
 import com.example.locals.adapters.BookingListAdapter;
-import com.example.locals.adapters.GuideListAdapter;
-import com.example.locals.databinding.ActivityUserProfileBinding;
-import com.example.locals.fragments.AddFavoritesListFragment;
 import com.example.locals.fragments.RegisterGuideFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
@@ -59,15 +37,8 @@ import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
