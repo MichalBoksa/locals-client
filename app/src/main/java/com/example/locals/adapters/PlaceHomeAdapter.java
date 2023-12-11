@@ -53,6 +53,7 @@ public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.Citi
             public void onClick(View view) {
                 Intent intent = new Intent(context, PlaceDetails.class);
                 intent.putExtra("LOCATION_ID", getLocationId(holder.getAdapterPosition()));
+                intent.putExtra("CITY_NAME", placeList.get(holder.getAdapterPosition()).getAddress_obj().getCity());
                 context.startActivity(intent);
             }
         });
@@ -80,7 +81,7 @@ public class PlaceHomeAdapter extends RecyclerView.Adapter<PlaceHomeAdapter.Citi
         }
     }
 
-    private int getLocationId(int position) {
+    private String getLocationId(int position) {
         return placeList.get(position).getLocation_id();
     }
 }

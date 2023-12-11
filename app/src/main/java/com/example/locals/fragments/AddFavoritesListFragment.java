@@ -1,6 +1,8 @@
 package com.example.locals.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,11 +19,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import com.example.locals.R;
+import com.example.locals.activities.Home;
 import com.example.locals.models.Favorites;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.utils.PKCE;
+import com.google.gson.Gson;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -40,6 +44,9 @@ public class AddFavoritesListFragment extends DialogFragment {
     private DatePickerDialog.OnDateSetListener endDateSetListener;
     private RetrofitService retrofit;
     private Favorites favorites;
+    private User user;
+    private Gson gson;
+    private SharedPreferences sharedPref;
 
 
     @Nullable
@@ -49,6 +56,9 @@ public class AddFavoritesListFragment extends DialogFragment {
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         favorites = new Favorites();
+        gson = new Gson();
+        sharedPref = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
         closeFragment = (ImageView) view.findViewById(R.id.closeAddFavoritesList);
         startDateTV = (TextView) view.findViewById(R.id.startDateAddFavoritesListFragmentTV);
         endDateTV = (TextView) view.findViewById(R.id.endDateAddFavoritesListFragmentTV);
@@ -111,11 +121,6 @@ public class AddFavoritesListFragment extends DialogFragment {
         addListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO change user
-                User user = new User();
-                user.setEmail("ASD@op.pl");
-                user.setId(4);
-
                 favorites.setName(listNameET.getText().toString());
                 favorites.setUser(user);
                 RScall(favorites);
@@ -155,6 +160,7 @@ public class AddFavoritesListFragment extends DialogFragment {
         addNewList.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println(response);
             }
 
             @Override

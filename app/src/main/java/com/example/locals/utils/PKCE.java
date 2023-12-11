@@ -27,6 +27,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.security.MessageDigest;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +75,11 @@ public class PKCE {
     public static String getJWTUser(String jwt) {
         DecodedJWT decode = JWT.decode(jwt);
         return decode.getClaim("username").asString();
+    }
+
+    public static List<String> getJWTAuthorities(String jwt) {
+        DecodedJWT decode = JWT.decode(jwt);
+        return decode.getClaim("authorities").asList(String.class);
     }
 
 

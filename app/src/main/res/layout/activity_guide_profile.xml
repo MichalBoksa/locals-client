@@ -368,7 +368,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:gravity="center"
-                            android:text="phone"
+                            android:text="about me"
                             android:textColor="@color/white"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -554,7 +554,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:gravity="center"
-                            android:text="phone"
+                            android:text="price"
                             android:textColor="@color/white"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -647,7 +647,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:gravity="center"
-                            android:text="phone"
+                            android:text="language"
                             android:textColor="@color/white"
                             android:textSize="17sp"
                             android:textStyle="bold" />

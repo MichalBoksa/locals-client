@@ -26,8 +26,13 @@ import com.example.locals.R;
 
 import com.example.locals.adapters.BookingListAdapter;
 import com.example.locals.fragments.RegisterGuideFragment;
+import com.example.locals.fragments.UpadateWhatToOffer;
+import com.example.locals.fragments.UpdateAboutMeFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
+import com.example.locals.fragments.UpdateLanguagesFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
+import com.example.locals.fragments.UpdatePriceFragment;
+import com.example.locals.fragments.UpdateWhatToOfferFragment;
 import com.example.locals.models.Booking;
 import com.example.locals.models.Guide;
 import com.example.locals.models.User;
@@ -58,16 +63,26 @@ public class GuideProfile extends AppCompatActivity {
     private TextView userIdTV;
     private TextView userEmailTV;
     private TextView userPhoneTV;
-    private TextView becomeLocalTV;
+    private TextView aboutMeTV;
+    private TextView whatToOfferTV;
+    private TextView priceTV;
+    private TextView languagesTV;
     private TextView logoutTV;
     private String userPhone;
     private RetrofitService retrofit;
     private UpdateEmailFragment emailDialogFragment;
     private UpdatePhoneFragment phoneDialogFragment;
-    private RegisterGuideFragment registerGuideFragment;
+    private UpdateAboutMeFragment aboutMeDialogFragment;
+    private UpdateWhatToOfferFragment whatToOfferDialogFragment;
+    private UpdatePriceFragment priceDialogFragment;
+    private UpdateLanguagesFragment languagesDialogFragment;
+    Bundle bundleArgs;
+
     private RecyclerView bookingRecyclerView;
     private BookingListAdapter bookingAdapter;
     private User user;
+    private Guide guide;
+
     private SharedPreferences sharedPref;
     private  Gson gson;
     private ActivityResultLauncher<PickVisualMediaRequest> launcher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
@@ -101,20 +116,25 @@ public class GuideProfile extends AppCompatActivity {
         if(PKCE.isJWTexpired(this)) {
             PKCE.refreshToken(this, REDIRECT_URI);
         }
-        backArrow = findViewById(R.id.backArrowUserProfile);
-        userImage = findViewById(R.id.imageUserProfile);
-        usernameTV = findViewById(R.id.usernameUserProfileTV);
-        userIdTV = findViewById(R.id.userIdUserProfileTV);
-        userEmailTV = findViewById(R.id.emailUserProfile);
-        userPhoneTV = findViewById(R.id.phoneNumberUserProfile);
-        editEmailTV = findViewById(R.id.updateEmailUserProfile);
-        editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
-        becomeLocalTV = findViewById(R.id.becomeLocalUserProfile);
-        logoutTV = findViewById(R.id.logoutUserProfile);
+        backArrow = findViewById(R.id.backArrowGuideProfile);
+        userImage = findViewById(R.id.imageGuideProfile);
+        usernameTV = findViewById(R.id.usernameGuideProfileTV);
+        userIdTV = findViewById(R.id.userIdGuideProfileTV);
+        userEmailTV = findViewById(R.id.emailGuideProfile);
+        userPhoneTV = findViewById(R.id.phoneNumberGuideProfile);
+        editEmailTV = findViewById(R.id.updateEmailGuideProfile);
+        editPhoneTV = findViewById(R.id.updatePhoneGuideProfile);
+        aboutMeTV = findViewById(R.id.aboutMeBecomeLocalTV);
+        whatToOfferTV = findViewById(R.id.whatToOfferGuideProfile);
+        priceTV = findViewById(R.id.priceGuideProfile);
+        languagesTV = findViewById(R.id.languagesBecomeLocalTV);
+        logoutTV = findViewById(R.id.logoutGuideProfile);
+        bundleArgs = new Bundle();
         gson = new Gson();
         sharedPref = GuideProfile.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         user = gson.fromJson(sharedPref.getString("USER",null), User.class);
 
+        //TODO delete maybe later
         setUserData();
         setGuideData();
         setBookings();
@@ -192,13 +212,6 @@ public class GuideProfile extends AppCompatActivity {
             }
         });
 
-        becomeLocalTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerGuideFragment = new RegisterGuideFragment();
-                registerGuideFragment.show(getSupportFragmentManager(),"registerGuide");
-            }
-        });
 
         logoutTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,6 +221,28 @@ public class GuideProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        whatToOfferTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whatToOfferDialogFragment = new UpdateWhatToOfferFragment();
+                bundleArgs.putSerializable("GUIDE", guide);
+                whatToOfferDialogFragment.setArguments(bundleArgs);
+                whatToOfferDialogFragment.show(getSupportFragmentManager(),"whatToOfferDialogFragment");
+            }
+        });
+
+
+        aboutMeTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aboutMeDialogFragment = new UpdateAboutMeFragment();
+                bundleArgs.putSerializable("GUIDE", guide);
+                aboutMeDialogFragment.setArguments(bundleArgs);
+                aboutMeDialogFragment.show(getSupportFragmentManager(),"whatToOfferDialogFragment");
+            }
+        });
+
 
     }
 
@@ -233,7 +268,7 @@ public class GuideProfile extends AppCompatActivity {
     }
 
     private void setBookingsRecyclerView(List<Booking> bookingList) {
-        bookingRecyclerView = findViewById(R.id.bookingRVUserProfile);
+        bookingRecyclerView = findViewById(R.id.bookingRVGuideProfile);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         bookingRecyclerView.setLayoutManager(layoutManager);
         bookingAdapter = new BookingListAdapter(this, bookingList,user);
@@ -270,27 +305,26 @@ public class GuideProfile extends AppCompatActivity {
     }
 
     private void setGuideData() {
-//        //TODO change to sharedprefs
-//        String accessCode = PKCE.getAccessToken(this);
-//        final Call<Guide> getGuide = retrofit
-//                .getRetrofit()
-//                .create(GuideApi.class)
-//                .getGuideDetails("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
-//
-//        getUser.enqueue(new Callback<Guide>() {
-//            @Override
-//            public void onResponse(Call<Guide> call, Response<Guide> response) {
-//                if(response.body() != null ) {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<User> call, Throwable t) {
-//                System.out.println(call);
-//                Toast.makeText(GuideProfile.this, "userData call error",Toast.LENGTH_LONG).show();
-//            }
-//        });
+        String accessCode = PKCE.getAccessToken(this);
+        final Call<Guide> getGuide = retrofit
+                .getRetrofit()
+                .create(GuideApi.class)
+                .getGuideDetailsByEmail("Bearer " + accessCode, user.getEmail());
+
+        getGuide.enqueue(new Callback<Guide>() {
+            @Override
+            public void onResponse(Call<Guide> call, Response<Guide> response) {
+                if(response.body() != null ) {
+                    guide = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Guide> call, Throwable t) {
+                System.out.println(call);
+                Toast.makeText(GuideProfile.this, "userData call error",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

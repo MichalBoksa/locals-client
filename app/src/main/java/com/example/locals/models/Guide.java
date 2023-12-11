@@ -1,7 +1,9 @@
 package com.example.locals.models;
 
 
-public class Guide {
+import java.io.Serializable;
+
+public class Guide implements Serializable {
    private int id;
    private String name;
    private String city;
@@ -13,6 +15,20 @@ public class Guide {
    private String whatToOffer;
    private String imageURL;
    private String activities;
+
+    public Guide(int id, String name, String city, String email, String languages, Integer price, String phoneNumber, String aboutMe, String whatToOffer, String imageURL, String activities) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.email = email;
+        this.languages = languages;
+        this.price = price;
+        this.phoneNumber = phoneNumber;
+        this.aboutMe = aboutMe;
+        this.whatToOffer = whatToOffer;
+        this.imageURL = imageURL;
+        this.activities = activities;
+    }
 
     public Guide(int id) {
         this.id = id;

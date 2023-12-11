@@ -1,6 +1,5 @@
 package com.example.locals.fragments;
 
-import static android.content.Intent.getIntent;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,12 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.locals.R;
-import com.example.locals.activities.Home;
-import com.example.locals.activities.UserProfile;
 import com.example.locals.adapters.AddSingleElementToFavoriteListAdapter;
-import com.example.locals.adapters.GuideListAdapter;
 import com.example.locals.models.Favorites;
-import com.example.locals.models.Guide;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.FavoritesApi;
 import com.example.locals.retrofit.RetrofitService;
@@ -57,7 +52,7 @@ public class AddElementToFavoriteListFragment extends DialogFragment {
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         Bundle bundle = getArguments();
-        placeIdBundle = bundle.getString("GUIDE_ID","");
+        placeIdBundle = bundle.getString("PLACE_ID","");
         gson = new Gson();
         sharedPref = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         user = gson.fromJson(sharedPref.getString("USER",null), User.class);
@@ -125,13 +120,13 @@ public class AddElementToFavoriteListFragment extends DialogFragment {
         addFavoritesListItem.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
+                System.out.println(response);
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println(call);
-                Toast.makeText(getActivity(), "add element call error" + call,Toast.LENGTH_LONG).show();
+                Toast.makeText(AddElementToFavoriteListFragment.this.getActivity(), "add element call error" + call,Toast.LENGTH_LONG).show();
             }
         });
     }

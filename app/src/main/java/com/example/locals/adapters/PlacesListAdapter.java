@@ -54,6 +54,7 @@ public class PlacesListAdapter extends RecyclerView.Adapter<PlacesListAdapter.Vi
             public void onClick(View view) {
                 Intent intent = new Intent(context, PlaceDetails.class);
                 intent.putExtra("LOCATION_ID",placeList.get(holder.getAdapterPosition()).getLocation_id());
+                intent.putExtra("CITY_NAME", placeList.get(holder.getAdapterPosition()).getAddress_obj().getCity());
                 context.startActivity(intent);
             }
         });

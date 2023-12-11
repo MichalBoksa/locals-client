@@ -158,15 +158,19 @@ public class Home extends AppCompatActivity {
         guidesImageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(Home.this, GuideList.class);
                 startActivity(intent);
             }
         });
 
         userProfileImageIcon.setOnClickListener(new View.OnClickListener() {
+            String accessCode = PKCE.getAccessToken(Home.this);
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, UserProfile.class);
+                Intent intent = PKCE.getJWTAuthorities(accessCode).contains("GUIDE")
+                        ? new Intent(Home.this, GuideProfile.class)
+                        : new Intent(Home.this, UserProfile.class);
                 startActivity(intent);
             }
         });
@@ -251,11 +255,9 @@ public class Home extends AppCompatActivity {
 
     public void setUserFavorites() {
 
-        //TODO change userId
         final Call<ArrayList<Favorites>> getUserFavorites = retrofit
                 .getRetrofit()
                 .create(FavoritesApi.class)
-                //TODO change a
                 .getUserFavorites("Bearer " + PKCE.getAccessToken(this), user.getId());
 
         getUserFavorites.enqueue(new Callback<ArrayList<Favorites>>() {

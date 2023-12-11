@@ -30,6 +30,6 @@ public interface FavoritesApi {
     Call<Void> addList(@Header("Authorization") String token, @Body Favorites favorites);
 
     @Headers("Accept: application/json")
-    @PUT("/favorites/addListElement")
-    Call<Void> addListElement(@Header("Authorization") String token, @Body List<Integer> ids, @Body String placeId );
+    @PUT("/favorites/addListElement/{placeId}")
+    Call<Void> addListElement(@Header("Authorization") String token, @Body List<Integer> ids, @Path("placeId") String placeId );
 }

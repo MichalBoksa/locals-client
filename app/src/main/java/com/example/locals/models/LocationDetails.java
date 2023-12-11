@@ -3,7 +3,7 @@ package com.example.locals.models;
 import java.util.List;
 
 public class LocationDetails {
-        private int location_id;
+        private String location_id;
         private String name;
         private String description;
         private String web_url;
@@ -12,11 +12,11 @@ public class LocationDetails {
         private List<String> imagesURLList;
         private Integer num_reviews;
 
-        public int getLocation_id() {
+        public String getLocation_id() {
             return location_id;
         }
 
-        public void setLocation_id(int location_id) {
+        public void setLocation_id(String location_id) {
             this.location_id = location_id;
         }
 

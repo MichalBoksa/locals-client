@@ -63,8 +63,11 @@ public class PlaceDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
         placeid = getIntent().getExtras().getString("LOCATION_ID");
+        cityName = getIntent().getExtras().getString("CITY_NAME");
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        dialogAddElement = new AddElementToFavoriteListFragment();
+        setPlaceDetails();
         if(PKCE.isJWTexpired(this)) {
             PKCE.refreshToken(this, REDIRECT_URI);
         }
@@ -74,7 +77,7 @@ public class PlaceDetails extends AppCompatActivity {
         placeImage = findViewById(R.id.imagePlaceDetails);
         placeDescription = findViewById(R.id.descriptionPlaceDetails);
         placeRating = findViewById(R.id.ratingPlaceDetails);
-        setPlaceDetails();
+
         setOnClickListeners();
         setRecommendedGuides();
     }
