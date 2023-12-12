@@ -84,8 +84,8 @@ public class RegisterGuideFragment extends DialogFragment {
         city = view.findViewById(R.id.cityBecomeLocalTV);
         saveGuide = view.findViewById(R.id.CreateLocalsBookingFragmentBTN);
         gson = new Gson();
-        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
         sharedPref = RegisterGuideFragment.this.getContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
         activities = new ArrayList<>();
         setOnClickListeners();
         return view;
@@ -153,6 +153,7 @@ public class RegisterGuideFragment extends DialogFragment {
 
                 User user = gson.fromJson(sharedPref.getString("USER",null), User.class);
                 guide.setName(user.getName());
+                guide.setEmail(user.getEmail());
                 guide.setPhoneNumber(user.getPhoneNumber());
                 guide.setActivities(String.join(",",activities));
                 guide.setAboutMe(aboutMe.getText().toString());
@@ -188,14 +189,16 @@ public class RegisterGuideFragment extends DialogFragment {
     }
 
     private void AScall() {
+      //  PKCE.getAuthorizationToken();
         final Call<Void> addNewList = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .updateToGuide("Bearer " + PKCE.getAccessToken(this.getContext()),user.getEmail());
+                .updateToGuide("Basic " + PKCE.getAuthToken(this.getContext()),user.getEmail());
 
         addNewList.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+
                 Toast.makeText(RegisterGuideFragment.this.getActivity(), "You've become a local!",Toast.LENGTH_LONG).show();
                 dismiss();
             }

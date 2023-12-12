@@ -60,6 +60,7 @@ public class UpdateEmailFragment extends DialogFragment {
         });
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
+            //TODO update guide email
             @Override
             public void onClick(View view) {
                 RScall(emailET.getText().toString());

@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
                   Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
-//                  intent.setData(Uri.parse("http://192.168.32.5:8080/oauth2/authorize?" +
-                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
+//                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
                           "scope=openid&" +

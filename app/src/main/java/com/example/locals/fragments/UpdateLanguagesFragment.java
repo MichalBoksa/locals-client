@@ -75,14 +75,15 @@ public class UpdateLanguagesFragment extends DialogFragment {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RScall(languagesET.getText().toString());
+                languages =languagesET.getText().toString();
+                guide.setLanguages(languages);
+                RScall(languages);
                 dismiss();
             }
         });
     }
 
     private void RScall(String newLanguages) {
-
 
         final Call<Void> addNewList = retrofit
                 .getRetrofit()

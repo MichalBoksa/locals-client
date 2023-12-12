@@ -166,13 +166,6 @@ public class PKCE {
                 "redirect_uri=" + REDIRECT_URI +
                 "&code_challenge=" + PKCE.codeChallenge +
                 "&code_challenge_method=S256"));
-
-        //TODO check condition
-        //if (intent.resolveActivity(getPackageManager()) != null) {
-        context.startActivity(intent);
-        //       }
-
-
     }
 
     public static void AuthorizationTokenResume(AppCompatActivity context, String REDIRECT_URI){

@@ -73,6 +73,8 @@ public class UpdatePriceFragment extends DialogFragment {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                price = priceET.getText().toString();
+                guide.setPrice(Integer.parseInt(price));
                 RScall(priceET.getText().toString());
                 dismiss();
             }

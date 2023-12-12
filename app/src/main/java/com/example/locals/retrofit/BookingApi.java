@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface BookingApi {
@@ -22,4 +23,9 @@ public interface BookingApi {
     @Headers("Accept: application/json")
     @GET("/booking/getUserBookings/{email}")
     Call<List<Booking>> getBookings(@Header("Authorization") String token, @Path("email") String email);
+
+    @Headers("Accept: application/json")
+    @PUT("/booking/acceptBooking/{id}")
+    Call<Void> updateBooking(@Header("Authorization") String token, @Path("id") int id);
+
 }

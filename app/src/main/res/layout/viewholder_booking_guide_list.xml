@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="200dp"
+    android:layout_height="190dp"
     android:layout_marginBottom="8dp"
     android:padding="16dp"
     android:background="@drawable/rectangle_background">
@@ -81,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAcceptBookingGuideList"
         android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"

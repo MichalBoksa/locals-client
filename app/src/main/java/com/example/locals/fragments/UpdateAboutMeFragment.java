@@ -73,7 +73,8 @@ public class UpdateAboutMeFragment extends DialogFragment {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RScall(aboutMeET.getText().toString());
+                aboutMe = aboutMeET.getText().toString();
+                RScall(aboutMe);
                 dismiss();
             }
         });

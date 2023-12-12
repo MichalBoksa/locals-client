@@ -34,4 +34,8 @@ public interface GuideApi {
     @Headers("Accept: application/json")
     @PUT("/guide/update/{email}")
     Call<Void> updateGuide(@Header("Authorization") String token, @Path("email") String email ,@Body Guide guide);
+
+    @Headers("Accept: application/json")
+    @PUT("/updateToGuide/{email}")
+    Call<Void> updateGuideAuthServer(@Header("Authorization") String token, @Path("email") String email);
 }

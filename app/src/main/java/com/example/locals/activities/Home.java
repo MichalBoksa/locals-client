@@ -168,9 +168,10 @@ public class Home extends AppCompatActivity {
             String accessCode = PKCE.getAccessToken(Home.this);
             @Override
             public void onClick(View view) {
-                Intent intent = PKCE.getJWTAuthorities(accessCode).contains("GUIDE")
-                        ? new Intent(Home.this, GuideProfile.class)
-                        : new Intent(Home.this, UserProfile.class);
+//                Intent intent = PKCE.getJWTAuthorities(accessCode).contains("GUIDE")
+//                        ? new Intent(Home.this, GuideProfile.class)
+//                        : new Intent(Home.this, UserProfile.class);
+                Intent intent = new Intent(Home.this, GuideProfile.class);
                 startActivity(intent);
             }
         });

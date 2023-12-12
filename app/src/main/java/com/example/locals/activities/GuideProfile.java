@@ -25,8 +25,9 @@ import com.example.locals.MainActivity;
 import com.example.locals.R;
 
 import com.example.locals.adapters.BookingListAdapter;
+import com.example.locals.adapters.BookingListGuideAdapter;
 import com.example.locals.fragments.RegisterGuideFragment;
-import com.example.locals.fragments.UpadateWhatToOffer;
+import com.example.locals.fragments.UpdateWhatToOfferFragment;
 import com.example.locals.fragments.UpdateAboutMeFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdateLanguagesFragment;
@@ -79,7 +80,7 @@ public class GuideProfile extends AppCompatActivity {
     Bundle bundleArgs;
 
     private RecyclerView bookingRecyclerView;
-    private BookingListAdapter bookingAdapter;
+    private BookingListGuideAdapter bookingAdapter;
     private User user;
     private Guide guide;
 
@@ -110,7 +111,7 @@ public class GuideProfile extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_guide_profile);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
         if(PKCE.isJWTexpired(this)) {
@@ -124,10 +125,10 @@ public class GuideProfile extends AppCompatActivity {
         userPhoneTV = findViewById(R.id.phoneNumberGuideProfile);
         editEmailTV = findViewById(R.id.updateEmailGuideProfile);
         editPhoneTV = findViewById(R.id.updatePhoneGuideProfile);
-        aboutMeTV = findViewById(R.id.aboutMeBecomeLocalTV);
+        aboutMeTV = findViewById(R.id.aboutMeGuideProfile);
         whatToOfferTV = findViewById(R.id.whatToOfferGuideProfile);
         priceTV = findViewById(R.id.priceGuideProfile);
-        languagesTV = findViewById(R.id.languagesBecomeLocalTV);
+        languagesTV = findViewById(R.id.languagesGuideProfile);
         logoutTV = findViewById(R.id.logoutGuideProfile);
         bundleArgs = new Bundle();
         gson = new Gson();
@@ -243,6 +244,26 @@ public class GuideProfile extends AppCompatActivity {
             }
         });
 
+        priceTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                priceDialogFragment = new UpdatePriceFragment();
+                bundleArgs.putSerializable("GUIDE", guide);
+                priceDialogFragment.setArguments(bundleArgs);
+                priceDialogFragment.show(getSupportFragmentManager(),"priceDialogFragment");
+            }
+        });
+
+        languagesTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                languagesDialogFragment = new UpdateLanguagesFragment();
+                bundleArgs.putSerializable("GUIDE", guide);
+                languagesDialogFragment.setArguments(bundleArgs);
+                languagesDialogFragment.show(getSupportFragmentManager(),"languagesDialogFragment");
+            }
+        });
+
 
     }
 
@@ -266,12 +287,13 @@ public class GuideProfile extends AppCompatActivity {
             }
         });
     }
+//TODO Booking list guide
 
     private void setBookingsRecyclerView(List<Booking> bookingList) {
         bookingRecyclerView = findViewById(R.id.bookingRVGuideProfile);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         bookingRecyclerView.setLayoutManager(layoutManager);
-        bookingAdapter = new BookingListAdapter(this, bookingList,user);
+        bookingAdapter = new BookingListGuideAdapter(this, bookingList,user);
         bookingRecyclerView.setAdapter(bookingAdapter);
     }
 
@@ -286,13 +308,7 @@ public class GuideProfile extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
                 if(response.body() != null ) {
-                    List<Booking> test = new ArrayList<>();
-                    test = response.body()
-                            .stream().filter(b -> !b.isAccepted())
-                            .collect(Collectors.toList());
-                    setBookingsRecyclerView(response.body()
-                            .stream().filter(b -> !b.isAccepted())
-                            .collect(Collectors.toList()));
+                    setBookingsRecyclerView(response.body());
                 }
             }
 

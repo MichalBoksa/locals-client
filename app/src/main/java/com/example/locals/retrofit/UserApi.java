@@ -20,6 +20,11 @@ public interface UserApi {
     @GET("/RSUser/getUser/{email}")
     Call<User> getUser(@Header("Authorization") String token, @Path("email") String email);
 
+    @Headers("Accept: application/json")
+    @GET("/RSUser/getUserId/{id}")
+    Call<User> getUserId(@Header("Authorization") String token, @Path("id") Integer id);
+
+
     @PUT("/RSUser/updateImage/{email}")
     Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body String image);
 
