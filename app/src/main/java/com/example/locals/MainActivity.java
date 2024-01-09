@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeComponents() {
         Button buttonSignIn = findViewById(R.id.buttonLogin);
+        Button buttonSignUp = findViewById(R.id.buttonRegister);
         accessToken = PKCE.getAccessToken(this);
         expiryTime = PKCE.getTokenExpiryTime(this);
 
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
                   Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
-                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
-//                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+//                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
                           "scope=openid&" +
@@ -105,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
           }
     }
                 );
+
+      buttonSignUp.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+
+          }
+      });
     }
 
 

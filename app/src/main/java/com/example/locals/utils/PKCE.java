@@ -166,6 +166,7 @@ public class PKCE {
                 "redirect_uri=" + REDIRECT_URI +
                 "&code_challenge=" + PKCE.codeChallenge +
                 "&code_challenge_method=S256"));
+        startActivity(context,intent,null);
     }
 
     public static void AuthorizationTokenResume(AppCompatActivity context, String REDIRECT_URI){

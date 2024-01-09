@@ -193,7 +193,7 @@ public class RegisterGuideFragment extends DialogFragment {
         final Call<Void> addNewList = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .updateToGuide("Basic " + PKCE.getAuthToken(this.getContext()),user.getEmail());
+                .updateToGuide("Bearer " + PKCE.getAuthToken(this.getContext()),user.getEmail());
 
         addNewList.enqueue(new Callback<Void>() {
             @Override

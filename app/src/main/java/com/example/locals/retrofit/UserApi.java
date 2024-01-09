@@ -5,6 +5,7 @@ import com.example.locals.models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -36,6 +37,9 @@ public interface UserApi {
 
     @PUT("/updateToGuide/{email}")
     Call<Void> updateToGuide(@Header("Authorization") String token, @Path("email") String email);
+
+    @DELETE("/deleteGuide/{email}")
+    Call<Void> deleteUser(@Header("Authorization") String token, @Path("email") String email);
 
     //TODO check annotations
     @Headers("Accept: application/json")

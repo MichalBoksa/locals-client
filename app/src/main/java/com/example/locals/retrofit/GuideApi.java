@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -38,4 +39,8 @@ public interface GuideApi {
     @Headers("Accept: application/json")
     @PUT("/updateToGuide/{email}")
     Call<Void> updateGuideAuthServer(@Header("Authorization") String token, @Path("email") String email);
+
+    @Headers("Accept: application/json")
+    @DELETE("/guide/deleteGuide/{email}")
+    Call<Void> deleteGuide(@Header("Authorization") String token, @Path("email") String email);
 }

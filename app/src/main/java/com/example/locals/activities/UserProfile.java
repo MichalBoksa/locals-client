@@ -69,6 +69,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView userPhoneTV;
     private TextView becomeLocalTV;
     private TextView logoutTV;
+    private TextView deleteAccountTV;
     private String userPhone;
     private RetrofitService retrofit;
     private UpdateEmailFragment emailDialogFragment;
@@ -119,6 +120,7 @@ public class UserProfile extends AppCompatActivity {
         editPhoneTV = findViewById(R.id.updatePhoneUserProfile);
         becomeLocalTV = findViewById(R.id.becomeLocalUserProfile);
         logoutTV = findViewById(R.id.logoutUserProfile);
+        deleteAccountTV = findViewById(R.id.deleteAccountUserProfile);
         gson = new Gson();
         sharedPref = UserProfile.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         user = gson.fromJson(sharedPref.getString("USER",null), User.class);
@@ -214,6 +216,16 @@ public class UserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        deleteAccountTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteUser();
+                PKCE.logoutTokens(UserProfile.this);
+                Intent intent = new Intent(UserProfile.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateUserImage(String image) {
@@ -268,6 +280,27 @@ public class UserProfile extends AppCompatActivity {
                 Toast.makeText(UserProfile.this, "Bookings call error",Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void deleteUser() {
+        String accessCode = PKCE.getAccessToken(this);
+        final Call<Void> deleteUser = retrofit
+                .getRetrofit()
+                .create(UserApi.class)
+                .deleteUser("Bearer " + accessCode, user.getEmail());
+
+        deleteUser.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(UserProfile.this, "delete guide error", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public byte[] getBytes(InputStream inputStream) throws IOException {

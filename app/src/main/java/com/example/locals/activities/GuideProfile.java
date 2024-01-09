@@ -69,6 +69,7 @@ public class GuideProfile extends AppCompatActivity {
     private TextView priceTV;
     private TextView languagesTV;
     private TextView logoutTV;
+    private TextView deleteTV;
     private String userPhone;
     private RetrofitService retrofit;
     private UpdateEmailFragment emailDialogFragment;
@@ -77,7 +78,7 @@ public class GuideProfile extends AppCompatActivity {
     private UpdateWhatToOfferFragment whatToOfferDialogFragment;
     private UpdatePriceFragment priceDialogFragment;
     private UpdateLanguagesFragment languagesDialogFragment;
-    Bundle bundleArgs;
+    private Bundle bundleArgs;
 
     private RecyclerView bookingRecyclerView;
     private BookingListGuideAdapter bookingAdapter;
@@ -130,6 +131,7 @@ public class GuideProfile extends AppCompatActivity {
         priceTV = findViewById(R.id.priceGuideProfile);
         languagesTV = findViewById(R.id.languagesGuideProfile);
         logoutTV = findViewById(R.id.logoutGuideProfile);
+        deleteTV =findViewById(R.id.deleteAccountGuideProfile);
         bundleArgs = new Bundle();
         gson = new Gson();
         sharedPref = GuideProfile.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -223,6 +225,17 @@ public class GuideProfile extends AppCompatActivity {
             }
         });
 
+        deleteTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteGuide();
+                deleteUser();
+                PKCE.logoutTokens(GuideProfile.this);
+                Intent intent = new Intent(GuideProfile.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         whatToOfferTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,7 +300,6 @@ public class GuideProfile extends AppCompatActivity {
             }
         });
     }
-//TODO Booking list guide
 
     private void setBookingsRecyclerView(List<Booking> bookingList) {
         bookingRecyclerView = findViewById(R.id.bookingRVGuideProfile);
@@ -320,6 +332,7 @@ public class GuideProfile extends AppCompatActivity {
         });
     }
 
+    //TODO intent guideprofile
     private void setGuideData() {
         String accessCode = PKCE.getAccessToken(this);
         final Call<Guide> getGuide = retrofit
@@ -341,6 +354,48 @@ public class GuideProfile extends AppCompatActivity {
                 Toast.makeText(GuideProfile.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void deleteGuide() {
+        String accessCode = PKCE.getAccessToken(this);
+
+        final Call<Void> deleteGuide = retrofit
+                .getRetrofit()
+                .create(GuideApi.class)
+                .deleteGuide("Bearer " + accessCode, user.getEmail());
+
+        deleteGuide.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                guide = null;
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(GuideProfile.this, "delete guide error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void deleteUser() {
+        String accessCode = PKCE.getAccessToken(this);
+        final Call<Void> deleteUser = retrofit
+                .getRetrofit()
+                .create(UserApi.class)
+                .deleteUser("Bearer " + accessCode, user.getEmail());
+
+        deleteUser.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(GuideProfile.this, "delete guide error", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }

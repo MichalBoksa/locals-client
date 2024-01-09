@@ -168,10 +168,10 @@ public class Home extends AppCompatActivity {
             String accessCode = PKCE.getAccessToken(Home.this);
             @Override
             public void onClick(View view) {
-//                Intent intent = PKCE.getJWTAuthorities(accessCode).contains("GUIDE")
-//                        ? new Intent(Home.this, GuideProfile.class)
-//                        : new Intent(Home.this, UserProfile.class);
-                Intent intent = new Intent(Home.this, GuideProfile.class);
+                Intent intent = PKCE.getJWTAuthorities(accessCode).contains("GUIDE")
+                        ? new Intent(Home.this, GuideProfile.class)
+                        : new Intent(Home.this, UserProfile.class);
+//                Intent intent = new Intent(Home.this, GuideProfile.class);
                 startActivity(intent);
             }
         });
@@ -290,7 +290,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 System.out.println(call);
-                if(response.body() != null ) {
+                if(response.body() != null && response.code() != 401 ) {
                     userImage = findViewById(R.id.userImageHome);
                     usernameTV.setText(response.body().getName());
                     if (response.body().getImageUri() != null && response.body().getImageUri().length() > 0) {
@@ -305,12 +305,16 @@ public class Home extends AppCompatActivity {
                     sharedPref.edit().putString("USER",gson.create().toJson(user)).apply();
 
                 }
+                else{
+                    PKCE.getRefreshToken(Home.this);
+                }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 System.out.println(call);
-                PKCE.getAuthorizationToken(REDIRECT_URI,Home.this);
+                PKCE.getRefreshToken(Home.this);
+//                PKCE.getAuthorizationToken(REDIRECT_URI,Home.this);
                 Toast.makeText(Home.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });
