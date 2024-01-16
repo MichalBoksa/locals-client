@@ -85,14 +85,16 @@ public class Home extends AppCompatActivity {
     private User user;
     private Gson gson;
     private SharedPreferences sharedPref;
-
    private RetrofitService retrofit;
+   private RetrofitService retrofitAuth;
 
     @Override
     protected void onResume() {
         super.onResume();
         PKCE.AuthorizationTokenResume(this,REDIRECT_URI);
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,8 @@ public class Home extends AppCompatActivity {
         }
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         gson = new Gson();
         sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         user = gson.fromJson(sharedPref.getString("USER",null), User.class);
@@ -192,7 +196,7 @@ public class Home extends AppCompatActivity {
 //        final Call<List<LocationDetails>> getCityAttractions = retrofit
 //                                                                .getRetrofit()
 //                                                                .create(LocationApi.class)
-//                                                                .getCityAttractions(cityName);
+//                                                                .getCityAttractions("Bearer " + PKCE.getAccessToken(this),cityName);
 //        getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
 //            @Override
 //            public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {
@@ -281,7 +285,7 @@ public class Home extends AppCompatActivity {
     private void setUser() {
         usernameTV = findViewById(R.id.usernameTVHome);
         String accessCode = PKCE.getAccessToken(this);
-        final Call<User> getUser = retrofit
+        final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
                 .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
@@ -312,9 +316,6 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                System.out.println(call);
-                PKCE.getRefreshToken(Home.this);
-//                PKCE.getAuthorizationToken(REDIRECT_URI,Home.this);
                 Toast.makeText(Home.this, "userData call error",Toast.LENGTH_LONG).show();
             }
         });

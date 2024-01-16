@@ -72,6 +72,7 @@ public class GuideProfile extends AppCompatActivity {
     private TextView deleteTV;
     private String userPhone;
     private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private UpdateEmailFragment emailDialogFragment;
     private UpdatePhoneFragment phoneDialogFragment;
     private UpdateAboutMeFragment aboutMeDialogFragment;
@@ -115,6 +116,8 @@ public class GuideProfile extends AppCompatActivity {
         setContentView(R.layout.activity_guide_profile);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         if(PKCE.isJWTexpired(this)) {
             PKCE.refreshToken(this, REDIRECT_URI);
         }
@@ -147,7 +150,7 @@ public class GuideProfile extends AppCompatActivity {
     private void setUserData() {
         //TODO change to sharedprefs
         String accessCode = PKCE.getAccessToken(this);
-        final Call<User> getUser = retrofit
+        final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
                 .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
@@ -345,6 +348,10 @@ public class GuideProfile extends AppCompatActivity {
             public void onResponse(Call<Guide> call, Response<Guide> response) {
                 if(response.body() != null ) {
                     guide = response.body();
+                    aboutMeTV.setText(guide.getAboutMe());
+                    whatToOfferTV.setText(guide.getWhatToOffer());
+                    priceTV.setText(guide.getPrice().toString());
+                   // languagesTV.setText(guide.getLanguages().toString());
                 }
             }
 

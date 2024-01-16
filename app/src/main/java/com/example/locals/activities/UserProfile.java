@@ -72,6 +72,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView deleteAccountTV;
     private String userPhone;
     private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private UpdateEmailFragment emailDialogFragment;
     private UpdatePhoneFragment phoneDialogFragment;
     private RegisterGuideFragment registerGuideFragment;
@@ -107,6 +108,8 @@ public class UserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         retrofit = new RetrofitService();
         retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         if(PKCE.isJWTexpired(this)) {
             PKCE.refreshToken(this, REDIRECT_URI);
         }
@@ -133,7 +136,7 @@ public class UserProfile extends AppCompatActivity {
     private void setUserData() {
         //TODO change to sharedprefs
         String accessCode = PKCE.getAccessToken(this);
-        final Call<User> getUser = retrofit
+        final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
                 .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
@@ -211,6 +214,7 @@ public class UserProfile extends AppCompatActivity {
         logoutTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PKCE.revokeToken(UserProfile.this);
                 PKCE.logoutTokens(UserProfile.this);
                 Intent intent = new Intent(UserProfile.this, MainActivity.class);
                 startActivity(intent);
@@ -284,6 +288,7 @@ public class UserProfile extends AppCompatActivity {
 
     private void deleteUser() {
         String accessCode = PKCE.getAccessToken(this);
+        PKCE.logoutTokens(this);
         final Call<Void> deleteUser = retrofit
                 .getRetrofit()
                 .create(UserApi.class)
@@ -314,5 +319,6 @@ public class UserProfile extends AppCompatActivity {
         }
         return byteBuffer.toByteArray();
     }
+
 
 }

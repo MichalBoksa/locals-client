@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
       buttonSignIn.setOnClickListener(view -> {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
-                  Toast.makeText(this.getApplicationContext(),"toast",Toast.LENGTH_LONG);
 //                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
                   intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
                           "response_type=code&" +
@@ -75,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-          else {
-              if (!accessToken.isEmpty() && PKCE.isJWTexpired(this)) {
+          else if (!accessToken.isEmpty() && PKCE.isJWTexpired(this)) {
                   String refreshToken = PKCE.getRefreshToken(this);
                   final Call<OAuthToken> refreshTokenCall = retrofit
                       .getRetrofit()
@@ -86,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
                   refreshTokenCall.enqueue(new Callback<OAuthToken>() {
                       @Override
                       public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-                          if(response.body() != null) {
+                          if(response.code() == 400) {
+                              PKCE.getAuthorizationToken(REDIRECT_URI,MainActivity.this);
+                          }
+                          else if(response.body() != null) {
                               saveTokenData(response);
                               Intent intent = new Intent(MainActivity.this, Home.class);
                               startActivity(intent);
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
               }
 
+          else{
               Intent intent = new Intent(MainActivity.this, Home.class);
               startActivity(intent);
           }
@@ -111,8 +113,21 @@ public class MainActivity extends AppCompatActivity {
       buttonSignUp.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+                  Intent intent = new Intent(Intent.ACTION_VIEW);
+//                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+                          "response_type=code&" +
+                          "client_id=client&" +
+                          "scope=openid&" +
+                          "redirect_uri=" + REDIRECT_URI +
+                          "&code_challenge="+ PKCE.codeChallenge +
+                          "&code_challenge_method=S256"));
 
-          }
+                  //TODO check condition
+                  //if (intent.resolveActivity(getPackageManager()) != null) {
+                  startActivity(intent);
+                  //       }
+              }
       });
     }
 

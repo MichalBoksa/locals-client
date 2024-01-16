@@ -34,4 +34,12 @@ public interface OAuth2Api {
             @Field("refresh_token") String refreshToken,
             @Field("code_verifier") String codeVerifier
     );
+
+    @Headers("Accept: application/json")
+    @POST("/oauth2/revoke")
+    @FormUrlEncoded
+    Call<OAuthToken> logout(
+            @Header("Authorization") String authorization,
+            @Field("token") String token
+    );
 }

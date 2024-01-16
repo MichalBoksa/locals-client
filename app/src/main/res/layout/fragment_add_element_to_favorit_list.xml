@@ -50,9 +50,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/AddFavoritesListFragmentRV"
         android:layout_width="243dp"
-        android:layout_height="192dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

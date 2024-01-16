@@ -56,4 +56,5 @@ public class User {
     public void setGuide(boolean guide) {
         isGuide = guide;
     }
+
 }

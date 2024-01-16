@@ -41,6 +41,7 @@ public class BookingListGuideAdapter extends RecyclerView.Adapter<BookingListGui
     private Context context;
     private User user;
     private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private Guide guide;
     private String accessCode;
 
@@ -64,7 +65,7 @@ public class BookingListGuideAdapter extends RecyclerView.Adapter<BookingListGui
     @Override
     public void onBindViewHolder(@NonNull BookingListGuideAdapter.ViewHolder holder, int position) {
         StringBuffer buffer = new StringBuffer();
-        RSUserCall(bookings.get(position).getUserId(),holder,position);
+        userCall(bookings.get(position).getUserId(),holder,position);
         buffer.append(
                 Utils.fromDateToLocalDate(bookings.get(position).getDate()));
         holder.dateTV.setText(buffer.toString());
@@ -102,10 +103,10 @@ public class BookingListGuideAdapter extends RecyclerView.Adapter<BookingListGui
 
     }
 
-    public void RSUserCall(int id,@NonNull BookingListGuideAdapter.ViewHolder holder, int position) {
+    public void userCall(int id,@NonNull BookingListGuideAdapter.ViewHolder holder, int position) {
 
 
-        final Call<User> getUser = retrofit
+        final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
                 .getUserId("Bearer " + accessCode,id);

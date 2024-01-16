@@ -18,13 +18,12 @@ import retrofit2.http.Path;
 public interface UserApi {
 
     @Headers("Accept: application/json")
-    @GET("/RSUser/getUser/{email}")
+    @GET("/users/getUser/{email}")
     Call<User> getUser(@Header("Authorization") String token, @Path("email") String email);
 
     @Headers("Accept: application/json")
-    @GET("/RSUser/getUserId/{id}")
+    @GET("/users/getUserById/{id}")
     Call<User> getUserId(@Header("Authorization") String token, @Path("id") Integer id);
-
 
     @PUT("/RSUser/updateImage/{email}")
     Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body String image);

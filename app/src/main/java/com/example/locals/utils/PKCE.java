@@ -185,7 +185,10 @@ public class PKCE {
             accessTokenCall.enqueue(new Callback<OAuthToken>() {
                 @Override
                 public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-                    if(response.body() != null) {
+                    if(response.code() == 400) {
+                        PKCE.getAuthorizationToken(REDIRECT_URI,context);
+                    }
+                   else if(response.body() != null) {
                         PKCE.saveTokenData(response,context);
                         Intent intent = new Intent(context, Home.class);
                         context.startActivity(intent);
@@ -198,5 +201,26 @@ public class PKCE {
                 }
             });
         }
+    }
+    public static void revokeToken(AppCompatActivity context) {
+        RetrofitService retrofit = new RetrofitService();
+        retrofit.initializeRetrofitAuth();
+        final Call<OAuthToken> revokeToken = retrofit
+                .getRetrofit()
+                .create(OAuth2Api.class)
+                .logout("Basic " + authorization, getAccessToken(context));
+
+        revokeToken.enqueue(new Callback<OAuthToken>() {
+            @Override
+            public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<OAuthToken> call, Throwable t) {
+                Toast.makeText(context, "Token error",Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 }
