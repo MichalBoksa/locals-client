@@ -96,7 +96,6 @@
                         android:padding="15dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-
                         />
 
                     <androidx.constraintlayout.widget.ConstraintLayout

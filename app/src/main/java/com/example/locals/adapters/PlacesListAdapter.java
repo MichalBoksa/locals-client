@@ -34,7 +34,6 @@ public class PlacesListAdapter extends RecyclerView.Adapter<PlacesListAdapter.Vi
     @Override
     public PlacesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        //TODO check this
         View view = LayoutInflater.from(context).inflate(R.layout.viewholder_place_list, parent, false);
         return new PlacesListAdapter.ViewHolder(view);
     }

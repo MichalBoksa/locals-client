@@ -1,5 +1,7 @@
 package com.example.locals.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.locals.R;
+import com.example.locals.models.User;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,26 +29,34 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdateEmailFragment extends DialogFragment {
-    private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private Button updateBtn;
     private EditText emailET;
     private ImageView cancelBtn;
     private String email;
     private String accessCode;
+    private User user;
+    private Gson gson;
+    private SharedPreferences sharedPref;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_email,container,false);
-        retrofit = new RetrofitService();
-        retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         accessCode = PKCE.getAccessToken(UpdateEmailFragment.this.getActivity());
-        email = PKCE.getJWTUser(accessCode);
+        sharedPref = UpdateEmailFragment.this.getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        gson = new Gson();
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
+        email = user.getEmail();
         emailET = view.findViewById(R.id.emailUpdateFragmentET);
         emailET.setText(email);
         updateBtn = view.findViewById(R.id.editEmailFragmentBTN);
         cancelBtn = view.findViewById(R.id.closeEmailUpdate);
+
+
 
         setOnClickListeners();
 
@@ -63,7 +76,11 @@ public class UpdateEmailFragment extends DialogFragment {
             //TODO update guide email
             @Override
             public void onClick(View view) {
-                RScall(emailET.getText().toString());
+                String newEmail = emailET.getText().toString();
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                user.setEmail(newEmail);
+                sharedPref.edit().putString("USER",gsonBuilder.create().toJson(user)).apply();
+                RScall(newEmail);
                 dismiss();
             }
         });
@@ -71,10 +88,10 @@ public class UpdateEmailFragment extends DialogFragment {
 
     private void RScall(String newEmail) {
 
-        final Call<ResponseBody> addNewList = retrofit
+        final Call<ResponseBody> addNewList = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .saveUserEmail("Bearer " + accessCode,email , newEmail);
+                .saveUserEmail("Bearer " + accessCode, user.getEmail() , newEmail);
 
         addNewList.enqueue(new Callback<ResponseBody>() {
             @Override

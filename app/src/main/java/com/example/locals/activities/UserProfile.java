@@ -1,15 +1,8 @@
 package com.example.locals.activities;
 
-import static android.view.View.inflate;
-import static java.text.DateFormat.DEFAULT;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +27,6 @@ import com.example.locals.fragments.RegisterGuideFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
 import com.example.locals.models.Booking;
-import com.example.locals.models.Guide;
 import com.example.locals.models.User;
 import com.example.locals.retrofit.BookingApi;
 import com.example.locals.retrofit.RetrofitService;
@@ -46,7 +38,6 @@ import java.io.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,7 +130,7 @@ public class UserProfile extends AppCompatActivity {
         final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+                .getUser("Bearer " + accessCode, user.getEmail());
 
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -214,8 +205,8 @@ public class UserProfile extends AppCompatActivity {
         logoutTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PKCE.revokeToken(UserProfile.this);
                 PKCE.logoutTokens(UserProfile.this);
+                PKCE.revokeToken(UserProfile.this);
                 Intent intent = new Intent(UserProfile.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -234,10 +225,10 @@ public class UserProfile extends AppCompatActivity {
 
     private void updateUserImage(String image) {
         String accessCode = PKCE.getAccessToken(this);
-        final Call<ResponseBody> setUserImage = retrofit
+        final Call<ResponseBody> setUserImage = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .saveUserImage("Bearer " + accessCode, PKCE.getJWTUser(accessCode), image);
+                .saveUserImage("Bearer " + accessCode, user.getEmail(), image);
 
         setUserImage.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -266,7 +257,7 @@ public class UserProfile extends AppCompatActivity {
         final Call<List<Booking>> getBookings = retrofit
                 .getRetrofit()
                 .create(BookingApi.class)
-                .getBookings("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+                .getBookings("Bearer " + accessCode, user.getEmail());
 
         getBookings.enqueue(new Callback<List<Booking>>() {
             @Override
@@ -289,7 +280,7 @@ public class UserProfile extends AppCompatActivity {
     private void deleteUser() {
         String accessCode = PKCE.getAccessToken(this);
         PKCE.logoutTokens(this);
-        final Call<Void> deleteUser = retrofit
+        final Call<Void> deleteUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
                 .deleteUser("Bearer " + accessCode, user.getEmail());

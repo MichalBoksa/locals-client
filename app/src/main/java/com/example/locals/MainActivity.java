@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
       buttonSignIn.setOnClickListener(view -> {
           if(accessToken == null || accessToken.isEmpty() ) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
-//                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
-                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+                  intent.setData(Uri.parse("http://192.168.32.8:8080/oauth2/authorize?" +
                           "response_type=code&" +
                           "client_id=client&" +
                           "scope=openid&" +
@@ -66,10 +65,7 @@ public class MainActivity extends AppCompatActivity {
                           "&code_challenge="+ PKCE.codeChallenge +
                           "&code_challenge_method=S256"));
 
-                  //TODO check condition
-                  //if (intent.resolveActivity(getPackageManager()) != null) {
                       startActivity(intent);
-           //       }
                 }
 
 
@@ -114,19 +110,9 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void onClick(View view) {
                   Intent intent = new Intent(Intent.ACTION_VIEW);
-//                  intent.setData(Uri.parse("http://192.168.32.2:8080/oauth2/authorize?" +
-                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
-                          "response_type=code&" +
-                          "client_id=client&" +
-                          "scope=openid&" +
-                          "redirect_uri=" + REDIRECT_URI +
-                          "&code_challenge="+ PKCE.codeChallenge +
-                          "&code_challenge_method=S256"));
+                  intent.setData(Uri.parse("http://192.168.32.8:8080/register_form"));
 
-                  //TODO check condition
-                  //if (intent.resolveActivity(getPackageManager()) != null) {
                   startActivity(intent);
-                  //       }
               }
       });
     }

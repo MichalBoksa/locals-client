@@ -25,19 +25,19 @@ public interface UserApi {
     @GET("/users/getUserById/{id}")
     Call<User> getUserId(@Header("Authorization") String token, @Path("id") Integer id);
 
-    @PUT("/RSUser/updateImage/{email}")
+    @PUT("/users/updateImage/{email}")
     Call<ResponseBody> saveUserImage(@Header("Authorization") String token, @Path("email") String email, @Body String image);
 
-    @PUT("/RSUser/updateEmail/{email}")
+    @PUT("/users/updateEmail/{email}")
     Call<ResponseBody> saveUserEmail(@Header("Authorization") String token, @Path("email") String email, @Body String newEmail);
 
-    @PUT("/RSUser/updatePhone/{email}")
+    @PUT("/users/updatePhone/{email}")
     Call<ResponseBody> saveUserPhone(@Header("Authorization") String token, @Path("email") String email, @Body String phone);
 
     @PUT("/updateToGuide/{email}")
     Call<Void> updateToGuide(@Header("Authorization") String token, @Path("email") String email);
 
-    @DELETE("/deleteGuide/{email}")
+    @DELETE("/deleteUser/{email}")
     Call<Void> deleteUser(@Header("Authorization") String token, @Path("email") String email);
 
     //TODO check annotations

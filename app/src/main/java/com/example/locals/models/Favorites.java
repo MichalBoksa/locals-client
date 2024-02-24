@@ -14,7 +14,7 @@ public class Favorites implements Parcelable {
     private String listImageUrl;
     private Date startDate;
     private Date endDate;
-    private User user;
+    private int userId;
 
     public Favorites() {
         this.listImageUrl = "https://www.lifeadventures.us/wp-content/uploads/2014/05/109-800x400.jpg";
@@ -77,12 +77,12 @@ public class Favorites implements Parcelable {
         this.listImageUrl = listImageUrl;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override

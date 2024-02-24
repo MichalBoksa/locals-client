@@ -107,13 +107,10 @@ public class Home extends AppCompatActivity {
         retrofit.initializeRetrofit();
         retrofitAuth = new RetrofitService();
         retrofitAuth.initializeRetrofitAuth();
-        gson = new Gson();
-        sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
+//        gson = new Gson();
+//        sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+//        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
         setUser();
-        setRecommendedPlaces();
-        setUserFavorites();
-        setRecommendedGuides();
         setOnClickListeners();
     }
 
@@ -193,45 +190,45 @@ public class Home extends AppCompatActivity {
     public void setRecommendedPlaces() {
 
 //  COMMENTED TO LIMIT API CALLS CUZ FIRST 5000 IS FREE :/
-//        final Call<List<LocationDetails>> getCityAttractions = retrofit
-//                                                                .getRetrofit()
-//                                                                .create(LocationApi.class)
-//                                                                .getCityAttractions("Bearer " + PKCE.getAccessToken(this),cityName);
-//        getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
-//            @Override
-//            public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {
-//                if(response.body() != null && !response.body().isEmpty()) {
-//                    setPlacesRecyclerView(response.body());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<LocationDetails>> call, Throwable t) {
-//                System.out.println(call);
-//                Toast.makeText(Home.this, "call error",Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-        //HERE I MAKE ONLY ONE API CALL
-        final Call<LocationDetails> getPlaceDetails = retrofit
-                .getRetrofit()
-                .create(LocationApi.class)
-                .getLocationDetails("Bearer " + PKCE.getAccessToken(this), "189258");
-
-        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
+        final Call<List<LocationDetails>> getCityAttractions = retrofit
+                                                                .getRetrofit()
+                                                                .create(LocationApi.class)
+                                                                .getCityAttractions("Bearer " + PKCE.getAccessToken(this),cityName);
+        getCityAttractions.enqueue(new Callback<List<LocationDetails>>() {
             @Override
-            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
-                if(response.body() != null) {
-                    List<LocationDetails> list = Arrays.asList(response.body());
-                    setPlacesRecyclerView(list);
+            public void onResponse(Call<List<LocationDetails>> call, Response<List<LocationDetails>> response) {
+                if(response.body() != null && !response.body().isEmpty()) {
+                    setPlacesRecyclerView(response.body());
                 }
             }
+
             @Override
-            public void onFailure(Call<LocationDetails> call, Throwable t) {
+            public void onFailure(Call<List<LocationDetails>> call, Throwable t) {
                 System.out.println(call);
-                Toast.makeText(Home.this, "location call error",Toast.LENGTH_LONG).show();
+                Toast.makeText(Home.this, "call error",Toast.LENGTH_LONG).show();
             }
         });
+
+        //HERE I MAKE ONLY ONE API CALL
+//        final Call<LocationDetails> getPlaceDetails = retrofit
+//                .getRetrofit()
+//                .create(LocationApi.class)
+//                .getLocationDetails("Bearer " + PKCE.getAccessToken(this), "189258");
+//
+//        getPlaceDetails.enqueue(new Callback<LocationDetails>() {
+//            @Override
+//            public void onResponse(Call<LocationDetails> call, Response<LocationDetails> response) {
+//                if(response.body() != null) {
+//                    List<LocationDetails> list = Arrays.asList(response.body());
+//                    setPlacesRecyclerView(list);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<LocationDetails> call, Throwable t) {
+//                System.out.println(call);
+//                Toast.makeText(Home.this, "location call error",Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     public void setRecommendedGuides() {
@@ -305,9 +302,11 @@ public class Home extends AppCompatActivity {
                     }
                     SharedPreferences sharedPref = Home.this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
                     GsonBuilder gson = new GsonBuilder();
-                    User user = response.body();
+                    user = response.body();
                     sharedPref.edit().putString("USER",gson.create().toJson(user)).apply();
-
+                    setRecommendedGuides();
+                    setRecommendedPlaces();
+                    setUserFavorites();
                 }
                 else{
                     PKCE.getRefreshToken(Home.this);

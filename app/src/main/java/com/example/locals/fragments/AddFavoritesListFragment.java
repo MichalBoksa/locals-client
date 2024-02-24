@@ -122,7 +122,7 @@ public class AddFavoritesListFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 favorites.setName(listNameET.getText().toString());
-                favorites.setUser(user);
+                favorites.setUserId(user.getId());
                 RScall(favorites);
                 dismiss();
             }

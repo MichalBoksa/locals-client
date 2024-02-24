@@ -1,5 +1,7 @@
 package com.example.locals.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,6 +23,7 @@ import com.example.locals.models.User;
 import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
+import com.google.gson.Gson;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,13 +31,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdatePhoneFragment extends DialogFragment {
-    private RetrofitService retrofit;
+    private RetrofitService retrofitAuth;
     private Button updateBtn;
     private EditText phoneET;
     private ImageView cancelBtn;
     private String phone;
     private String accessCode;
-
+    private User user;
+    private Gson gson;
+    private SharedPreferences sharedPref;
     public UpdatePhoneFragment(String phone) {
         this.phone = phone;
     }
@@ -45,13 +50,17 @@ public class UpdatePhoneFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_phone,container,false);
 
-        retrofit = new RetrofitService();
-        retrofit.initializeRetrofit();
+        retrofitAuth = new RetrofitService();
+        retrofitAuth.initializeRetrofitAuth();
         accessCode = PKCE.getAccessToken(UpdatePhoneFragment.this.getActivity());
         phoneET = view.findViewById(R.id.phoneUpdateFragmentET);
         phoneET.setText(phone);
         updateBtn = view.findViewById(R.id.editPhoneFragmentBTN);
         cancelBtn = view.findViewById(R.id.closePhoneUpdate);
+
+        sharedPref = UpdatePhoneFragment.this.getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        gson = new Gson();
+        user = gson.fromJson(sharedPref.getString("USER",null), User.class);
 
         setOnClickListeners();
 
@@ -69,6 +78,7 @@ public class UpdatePhoneFragment extends DialogFragment {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                phone = phoneET.getText().toString();
                 RScall();
                 dismiss();
             }
@@ -76,11 +86,10 @@ public class UpdatePhoneFragment extends DialogFragment {
     }
 
     private void RScall() {
-       String email = PKCE.getJWTUser(accessCode);
-        final Call<ResponseBody> addNewList = retrofit
+        final Call<ResponseBody> addNewList = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .saveUserPhone("Bearer " + accessCode,email ,phone);
+                .saveUserPhone("Bearer " + accessCode,user.getEmail() ,phone);
 
         addNewList.enqueue(new Callback<ResponseBody>() {
             @Override

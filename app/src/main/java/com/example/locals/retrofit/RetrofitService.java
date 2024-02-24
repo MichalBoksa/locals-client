@@ -29,8 +29,7 @@ public class RetrofitService {
                 .setDateFormat("yyyy-MM-dd")
                 .create();
         retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.32.2:9090")
-                .baseUrl("http://192.168.56.1:9090")
+                .baseUrl("http://192.168.32.8:9090")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
@@ -38,27 +37,10 @@ public class RetrofitService {
     public void initializeRetrofitAuth() {
 
         retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.32.2:8080")
-                .baseUrl("http://192.168.56.1:8080")
+                .baseUrl("http://192.168.32.8:8080")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }
-
-    //TODO rewrite this
-//    public void initializeRetrofitLogin() {
-//        String codeChallenge = "QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8";
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.56.1:8080/oauth2/authorize?" +
-//                        "response_type=code&" +
-//                        "client_id=client&" +
-//                        "scope=openid&" +
-//                        "redirect_uri=http://locals-app.com/redirect&" +
-//                        "code_challenge="+
-//                        codeChallenge
-//                        +"&code_challenge_method=S256")
-//                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-//                .build();
-//    }
 
     public Retrofit getRetrofit() {
         return retrofit;

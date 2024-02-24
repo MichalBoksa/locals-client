@@ -45,9 +45,6 @@ public class PKCE {
         SecureRandom sr = new SecureRandom();
         byte[] code = new byte[32];
         sr.nextBytes(code);
-//        SharedPreferences sharedPref = context.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putString("CODE_VERIFIER", Base64.getUrlEncoder().withoutPadding().encodeToString(code));
         return Base64.getUrlEncoder().withoutPadding().encodeToString(code);
     }
 
@@ -59,13 +56,6 @@ public class PKCE {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
-//        SharedPreferences sharedPref = context.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putString("CODE_CHALLENGE", Base64
-//                .getUrlEncoder()
-//                .withoutPadding()
-//                .encodeToString(bytes));
         return Base64
                 .getUrlEncoder()
                 .withoutPadding()
@@ -105,10 +95,10 @@ public class PKCE {
 
     public static void logoutTokens(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        sharedPref.edit().putString("auth_code", "").apply();
-        sharedPref.edit().putLong("expiry", 0).apply();
-        sharedPref.edit().putString("refresh", "").apply();
-        sharedPref.edit().putString("access_code", "").apply();
+
+    SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.apply();
     }
 
     public static boolean isJWTexpired(Context context) {
@@ -158,14 +148,14 @@ public class PKCE {
     public static void getAuthorizationToken(String REDIRECT_URI, Context context) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setData(Uri.parse("http://192.168.32.5:8080/oauth2/authorize?" +
-                  intent.setData(Uri.parse("http://192.168.56.1:8080/oauth2/authorize?" +
+                intent.setData(Uri.parse("http://192.168.32.8:8080/oauth2/authorize?" +
                 "response_type=code&" +
                 "client_id=client&" +
                 "scope=openid&" +
                 "redirect_uri=" + REDIRECT_URI +
                 "&code_challenge=" + PKCE.codeChallenge +
                 "&code_challenge_method=S256"));
+
         startActivity(context,intent,null);
     }
 
@@ -196,7 +186,6 @@ public class PKCE {
                 }
                 @Override
                 public void onFailure(Call<OAuthToken> call, Throwable t) {
-                    System.out.println(call);
                     Toast.makeText(context, "Token error",Toast.LENGTH_LONG).show();
                 }
             });

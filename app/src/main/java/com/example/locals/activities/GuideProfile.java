@@ -24,16 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locals.MainActivity;
 import com.example.locals.R;
 
-import com.example.locals.adapters.BookingListAdapter;
 import com.example.locals.adapters.BookingListGuideAdapter;
-import com.example.locals.fragments.RegisterGuideFragment;
 import com.example.locals.fragments.UpdateWhatToOfferFragment;
 import com.example.locals.fragments.UpdateAboutMeFragment;
 import com.example.locals.fragments.UpdateEmailFragment;
 import com.example.locals.fragments.UpdateLanguagesFragment;
 import com.example.locals.fragments.UpdatePhoneFragment;
 import com.example.locals.fragments.UpdatePriceFragment;
-import com.example.locals.fragments.UpdateWhatToOfferFragment;
 import com.example.locals.models.Booking;
 import com.example.locals.models.Guide;
 import com.example.locals.models.User;
@@ -43,9 +40,8 @@ import com.example.locals.retrofit.RetrofitService;
 import com.example.locals.retrofit.UserApi;
 import com.example.locals.utils.PKCE;
 import com.google.gson.Gson;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -153,7 +149,7 @@ public class GuideProfile extends AppCompatActivity {
         final Call<User> getUser = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .getUser("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+                .getUser("Bearer " + accessCode, user.getEmail());
 
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -285,10 +281,10 @@ public class GuideProfile extends AppCompatActivity {
 
     private void updateUserImage(String image) {
         String accessCode = PKCE.getAccessToken(this);
-        final Call<ResponseBody> setUserImage = retrofit
+        final Call<ResponseBody> setUserImage = retrofitAuth
                 .getRetrofit()
                 .create(UserApi.class)
-                .saveUserImage("Bearer " + accessCode, PKCE.getJWTUser(accessCode), image);
+                .saveUserImage("Bearer " + accessCode, user.getEmail(), image);
 
         setUserImage.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -317,7 +313,7 @@ public class GuideProfile extends AppCompatActivity {
         final Call<List<Booking>> getBookings = retrofit
                 .getRetrofit()
                 .create(BookingApi.class)
-                .getBookings("Bearer " + accessCode, PKCE.getJWTUser(accessCode));
+                .getBookings("Bearer " + accessCode, user.getEmail());
 
         getBookings.enqueue(new Callback<List<Booking>>() {
             @Override
@@ -329,7 +325,6 @@ public class GuideProfile extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Booking>> call, Throwable t) {
-                System.out.println(call);
                 Toast.makeText(GuideProfile.this, "Bookings call error",Toast.LENGTH_LONG).show();
             }
         });
